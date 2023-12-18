@@ -1,0 +1,173 @@
+<section class="exchange">
+  <div class="exchange__title-txt">
+    <h2>Exhange</h2>
+    <p (click)="open(password)">Add New Exchange</p>
+  </div>
+  <div class="exchange__no-exchanges" *ngIf="userExchangeList.length == 0 && !isLoading.list">
+    <h2>No exchange connected</h2>
+    <button type="button" class="exchange__solid-btn" (click)="open(password)">Add New Exchange</button>
+  </div>
+  <div *ngIf="isLoading.list">
+    <app-loader></app-loader>
+  </div>
+  <div class="exchange__card row" *ngIf="!isLoading.list">
+    <div class="exchange__card-inner col-sm-12 col-md-6 col-lg-3" *ngFor="let data of userExchangeList">
+      <div class="exchange__card-inner-content">
+        <div class="exchange__card-name">
+          <div><img src="../../../../assets/img/exchange-logo/{{data?.exchangeName.toLowerCase()}}.svg" width="40"
+              alt=""></div>
+          <div class="exchange__account-name">
+            <h2>{{data?.accountName}}</h2>
+            <p>{{data?.exchangeName}} <span class="exchange-type">{{data?.accountType}}</span></p>
+          </div>
+        </div>
+        <div>
+
+          <div ngbDropdown class="d-inline-block">
+            <img src="../../../../assets/img/svg/more-horizontal.svg" class="cursor" alt="" id="dropdownBasic1" ngbDropdownToggle>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="makeDefaultExchange(data)">{{data?.makeDefault ? 'Remove' : 'Make'}}
+                Default</button>
+              <button *ngIf="!data?.makeDefault" ngbDropdownItem 
+                (click)="selectDeleteExchange(data._id);open(confirm)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="exchange__account-name-footer">
+          <div>
+            <!-- <p>{{data?.exchangeName}}</p>
+                    <h2>33.690.61 USD</h2> -->
+          </div>
+          <div>
+            <div *ngIf="data?.makeDefault" class="exchange__default-txt">Default</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #password let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> Add New Exchange</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="w-100">
+      <form [formGroup]="exchangeForm">
+        <label class="label">Exchange</label>
+        <div id="exchange">
+          <!-- <select class="form-select mb-3" aria-label="Select Exchange" formControlName="exchangeName" [(ngModel)]="selectedExchange" (ngModelChange)="exchangeChange()">
+                <option selected value="null" disabled>Select Exchange</option>
+                <option *ngFor="let data of exchangeList" [value]=data?.value>{{data?.name}}</option>
+              </select> -->
+          <app-search-dropdown class="common-search" [(ngModel)]="selectedExchange" [isSearch]="false"
+            formControlName="exchangeName" (ngModelChange)="exchangeChange()">
+            <app-option *ngFor="let data of exchangeList" [value]=data?.value [label]="data?.name"></app-option>
+          </app-search-dropdown>
+          <!-- <ng-container *ngIf="exchangeForm.controls['accountName'].dirty">
+                <p class="err-txt" *ngIf="exchangeForm.controls['exchangeName'].hasError('required')">
+                  Choose exchange
+                </p>
+              </ng-container> -->
+        </div>
+
+        <label class="label">Accout Type</label>
+        <div id="exchange">
+          <!-- <select class="form-select mb-3" aria-label="Select Exchange" formControlName="accountType">
+            <option selected value="null" disabled>Select Account Type</option>
+            <option value="spot">Spot</option>
+            <option *ngIf="selectedExchange != 'bitrue'" value="fx">Fx</option>
+          </select> -->
+          <app-search-dropdown class="common-search" [isSearch]="false" formControlName="accountType">
+            <app-option [value]="'spot'" [label]="'Spot'"></app-option>
+            <app-option *ngIf="selectedExchange != 'bitrue'" [value]="'fx'" [label]="'FX'"></app-option>
+          </app-search-dropdown>
+          <!-- <ng-container *ngIf="exchangeForm.controls['accountName'].dirty">
+              <p class="err-txt" *ngIf="exchangeForm.controls['exchangeName'].hasError('required')">
+                Choose exchange
+              </p>
+            </ng-container> -->
+        </div>
+
+        <label class="label">Account Name</label>
+        <div class="input-group mb-3">
+          <input type="text" class="input-box" placeholder="Account Name" formControlName="accountName">
+        </div>
+        <ng-container *ngIf="exchangeForm.controls['accountName'].dirty">
+          <p class="err-txt" *ngIf="exchangeForm.controls['accountName'].hasError('required')">
+            Please enter your Account Name
+          </p>
+        </ng-container>
+
+        <label class="label">API Key</label>
+        <div class="input-group mb-3">
+          <input type="text" class="input-box" placeholder="API Key" formControlName="apiKey">
+        </div>
+        <ng-container *ngIf="exchangeForm.controls['apiKey'].dirty">
+          <p class="err-txt" *ngIf="exchangeForm.controls['apiKey'].hasError('required')">
+            Please enter your API Key
+          </p>
+        </ng-container>
+
+        <label class="label">Secret Key</label>
+        <div class="input-group mb-3">
+          <input type="text" class="input-box" placeholder="Secret Key" formControlName="secretKey">
+        </div>
+        <ng-container *ngIf="exchangeForm.controls['secretKey'].dirty">
+          <p class="err-txt" *ngIf="exchangeForm.controls['secretKey'].hasError('required')">
+            Please enter your Secret Key
+          </p>
+        </ng-container>
+
+        <label class="label" *ngIf="selectedExchange == 'kucoin'">Pass Key</label>
+        <div class="input-group mb-3" *ngIf="selectedExchange == 'kucoin'">
+          <input type="text" class="input-box" placeholder="Pass Key" formControlName="passKey">
+        </div>
+        <ng-container *ngIf="exchangeForm.controls['passKey'].dirty">
+          <p class="err-txt" *ngIf="exchangeForm.controls['passKey'].hasError('required')">
+            Please enter your Pass Key
+          </p>
+        </ng-container>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="agree" [ngModelOptions]="{standalone: true}">
+          <label class="check-label" for="defaultCheck1">
+            Click to lorem ipsum dolor sit amet.
+          </label>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="exchange__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+    <button type="button" class="exchange__save-btn" [disabled]="exchangeForm.invalid || !agree || isLoading.create"
+      (click)="createNewExchange()">
+      <span *ngIf="isLoading.create" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #confirm>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> Delete Exchange</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="w-100">
+      <p class="para-txt">Are you sure want to delete this exchange?</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="exchange__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+    <button type="button" class="exchange__save-btn" [disabled]="isLoading.delete" (click)="deleteExchange()">
+      <span *ngIf="isLoading.delete" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Delete
+    </button>
+  </div>
+</ng-template>

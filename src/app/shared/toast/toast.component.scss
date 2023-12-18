@@ -1,0 +1,29 @@
+:host {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    margin: 0.5em;
+    z-index: 1200;
+  }
+  .notification-icon{
+  margin-right: 1.5rem;
+  }
+  .notification-content{
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .close-btn{
+    position: absolute;
+    right: 1rem;
+    top: 2.3rem;
+  }
+  .d-flex-content{
+    display: flex;
+    align-items: centers;
+    p{
+      margin-bottom: 0;
+      margin-top: 0.4rem;
+    }
+  }

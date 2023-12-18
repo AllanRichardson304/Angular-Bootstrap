@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 64 64">
+      <image width="64" height="64" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAG1BMVEX///8AAAAxMTHv7+8TExO6urqfn592dnZfX19ferZ6AAAAmklEQVRIx2NgGAWjgEyQKAgE+BQIEquArQGXCmNjY4g6BkLm4JFmBckL4JZ3BMkrEHBmAU5pJrB8AH79DgTcD7YepyMZBWH+wGeMIlBegoGAPx0I+NMAp7QhgWBkJORPIsJBDGKQEC4rRGEOYSDgTyEC7sQjXwiSF8cfzPjCASQvQiC6BRjwR6QAxJkCVMleeANKYLQgGwXkAgBkKw8pQv2byAAAAABJRU5ErkJggg=="/>
+    </pattern>
+  </defs>
+  <rect id="auction" width="80" height="80" fill="url(#pattern)"/>
+</svg>

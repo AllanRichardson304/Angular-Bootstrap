@@ -1,0 +1,128 @@
+
+.range-slider {
+    width     : 100%;
+    // margin    : auto;
+    text-align: center;
+    position  : relative;
+    top       : -12px;
+    height    : 4rem;
+
+
+    svg,
+    input[type=range] {
+        position: absolute;
+        left    : 0;
+        bottom  : 0;
+    }
+
+    input[type=number] {
+        border         : 0.1rem solid #F1C232;
+        text-align     : center;
+        font-size      : 1.6em;
+        -moz-appearance: textfield;
+    }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type=number]:invalid,
+    input[type=number]:out-of-range {
+        border: 0.2rem solid #ff6347;
+    }
+
+    input[type=range] {
+        -webkit-appearance: none;
+        width             : 100%;
+        background-color  : transparent;
+    }
+
+    input[type=range]:focus {
+        outline: none;
+    }
+
+    input[type=range]:focus::-ms-fill-lower {
+        background:#F1C232;
+    }
+
+    input[type=range]:focus::-ms-fill-upper {
+        background: #F1C232;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        width        : 100%;
+        height       : 0.5rem;
+        cursor       : pointer;
+        background   :#F1C232;
+        border-radius: 3rem;
+        box-shadow   : none;
+        border       : 0;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        z-index           : 2;
+        position          : relative;
+        box-shadow        : 0rem 0rem 0rem #000;
+        border            : 0.1rem solid #F1C232;
+        height            : 1.8rem;
+        width             : 1.8rem;
+        border-radius     : 2.5rem;
+        background        : #F1C232;
+        cursor            : pointer;
+        -webkit-appearance: none;
+        margin-top        : -7px;
+    }
+
+    input[type=range]::-moz-range-track {
+        width        : 100%;
+        height       : 0.5rem;
+        cursor       : pointer;
+        background   : #E0E0E0;
+        border-radius: 0.1rem;
+        box-shadow   : none;
+        border       : 0;
+    }
+
+    input[type=range]::-moz-range-thumb {
+        z-index      : 2;
+        position     : relative;
+        box-shadow   : 0rem 0rem 0rem #000;
+        border       : 0.1rem solid #E0E0E0;
+        height       : 1.8rem;
+        width        : 1.8rem;
+        border-radius: 2.5rem;
+        background   : #E0E0E0;
+        cursor       : pointer;
+    }
+
+    input[type=range]::-ms-track {
+        width       : 100%;
+        height      : 0.5rem;
+        cursor      : pointer;
+        background  : transparent;
+        border-color: transparent;
+        color       : transparent;
+    }
+
+    input[type=range]::-ms-fill-lower,
+    input[type=range]::-ms-fill-upper {
+        background   :#F1C232;
+        border-radius: 0.1rem;
+        box-shadow   : none;
+        border       : 0;
+    }
+
+    input[type=range]::-ms-thumb {
+        z-index      : 2;
+        position     : relative;
+        box-shadow   : 0rem 0rem 0rem #000;
+        border       : 0.1rem solid #F1C232;
+        height       : 1.8rem;
+        width        : 1.8rem;
+        border-radius: 2.5rem;
+        background   : #F1C232;
+        cursor       : pointer;
+    }
+
+}

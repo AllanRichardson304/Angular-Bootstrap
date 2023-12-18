@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 64 64">
+      <image width="64" height="64" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAG1BMVEVHcEwAFCcADyEKGy6Sm6OfqLG1v8l3fYU5Q01816DVAAAAAXRSTlMAQObYZgAAATpJREFUSMftlDFygzAQRb8QcVxKwu6FaFJKUKR1boBvwOQEzg0yObnXBMUILcOk9Ix/w470+FqW1UJvCE/gUQFjatI60HmQZLUKYNIa0AMmaAeULGAsxHi88VOwdACmwwPAAfa+alAwAMp6lg0DKHzE8MA5qA67KawGNGIJVBA2WhxRKOQA2vj9lAEQMuAlZnGA0EMGWEgffi16dJJqtQAUxEl4nMcMbKkY4JMqSRbmBKokGeYOgFA4HyEVwDnIb8Ch7FEDe/VXqhlALxbUMdKSlc8AWqWP3xl6DGOYO+CnbZvKiqCb5g1MDmOnob2tUFlZ4KbCxiD/F6nqLSD818HYdL/IOuo9Bb6Ypk3ENu1MggHcHHDc1fP3fclf3kvcf1253WZZg3yAqDTBfAQ12rkQNoZY/ZzVDwtcAWAYfxM9SOciAAAAAElFTkSuQmCC"/>
+    </pattern>
+  </defs>
+  <rect id="gno" width="80" height="80" fill="url(#pattern)"/>
+</svg>

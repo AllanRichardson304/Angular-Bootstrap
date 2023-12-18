@@ -1,0 +1,65 @@
+<div class="login">
+  <div class="login__col login__first">
+    <div class="login__banner">
+      <div class="login__banner-inner">
+        <img src="../../../../assets/img/banner/Logo_Alliancecorp.png" alt="">
+        <div class="login__banner-inner-txt">
+          <h1>Tailored <br> Strategies <br> to grow <br> your <br> wealth</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="login__col">
+    <div class="login__form-banner">
+      <div class="login__form">
+        <div class="login__form-inner">
+          <div class="login__form-inner-content">
+            <img src="../../../../assets/img/banner/Logo_Full.png" alt="">
+            <h1>Welcome back !</h1>
+            <p>Please Your Details</p>
+            <div>
+              <form class="login__form-content" [formGroup]="loginForm" (ngSubmit)="userLogin()">
+                <label class="login__label-txt">Email</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="login__input-box" placeholder="Email" formControlName="email">
+                  <span class="copy-icon"><img src="../../../../assets/img/svg/mail.svg" width="18" alt="">
+                  </span>
+                </div>
+                 <ng-container>
+                  <p class="err-txt" *ngIf="loginForm.controls['email'].dirty && loginForm.controls['email'].hasError('required')">
+                    Please enter your registered email
+                  </p>
+                  <p class="err-txt" *ngIf="loginForm.controls['email'].dirty && loginForm.controls['email'].hasError('pattern')">
+                    Invalid email
+                  </p>
+                </ng-container>
+                <label class="login__label-txt">Password</label><br>
+                <div class="input-group mb-3">
+                  <input [type]="visiblePassword ? 'Text' : 'password'" class="login__input-box" placeholder="Password" formControlName="password">
+                  <span class="copy-icon" (click)="visiblePassword = !visiblePassword">
+                    <img *ngIf="visiblePassword" src="../../../../assets/img/svg/eye.svg" width="18" alt="">
+                    <img *ngIf="!visiblePassword" src="../../../../assets/img/svg/eye-off.svg" width="18" alt="" >
+                  </span>
+                </div>
+                <ng-container>
+                  <p class="err-txt" *ngIf="loginForm.controls['password'].dirty && loginForm.controls['password'].hasError('required')">
+                    Please enter your password
+                  </p>
+                </ng-container>
+                <br><br>
+                <h3 class="login__pwd-txt" routerLink="/auth/forgetpassword">Forget Password</h3>
+                <button type="submit" class="login__submit-btn" [disabled]="loginForm.invalid || isLoginLoad" >
+                  <span *ngIf="isLoginLoad" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-toast></app-toast>

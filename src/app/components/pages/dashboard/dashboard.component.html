@@ -1,0 +1,123 @@
+<section class="dashboard">
+  <div class="dashboard__title-txt">
+    <div>
+      <h2>Dashboard</h2>
+    </div>
+    <div class="dashboard__card-content">
+      <!-- <div class="dashboard__card-first">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Total Account Worth</p>
+            <h6>212.8234251 USD</h6>
+          </div>
+        </div>
+      </div> -->
+      <div class="dashboard__card-second" *ngIf="selectedExchangeDetail?.accountType == 'spot'">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Total Spot USDT</p>
+            <h6>{{dashboardDetail?.usdtValue?.free | number:'0.0-2'}} USDT</h6>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard__card-third"  *ngIf="selectedExchangeDetail?.accountType == 'fx'">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Total Future USDT</p>
+            <h6>{{dashboardDetail?.usdtValue?.free | number:'0.0-2'}} USDT</h6>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard__card-fourth">
+
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Last Login</p>
+            <h6>{{dashboardDetail?.lastLogin | date:'medium'}}</h6>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="dashboard__card-content">
+      <div class="dashboard__card-secondary">
+        <div class="dashboard__card-inner-secondary">
+          <h2>Grid Invested Amount</h2>
+          <h1>{{dashboardDetail?.gridInvestedAmount}} USD</h1>
+          <!-- <h3><span class="profit">0.26%</span> Performance ratio</h3> -->
+        </div>
+        <div class="dashboard__card-footer">
+          <p>No.of Grid</p>
+          <p>{{dashboardDetail?.totalGrid}}</p>
+        </div>
+      </div>
+      <div class="dashboard__card-secondary">
+        <div class="dashboard__card-inner-secondary">
+          <h2>Grid Profit</h2>
+          <h1>{{dashboardDetail?.gridProfit | number:'0.0-8'}} USD</h1>
+          <!-- <h3><span class="profit">0.26%</span> 48902.312 USD</h3> -->
+        </div>
+        <div class="dashboard__card-footer">
+          <p>No.of Win Grid</p>
+          <p>{{dashboardDetail?.totalProfitGrid}}</p>
+        </div>
+      </div>
+      <div class="dashboard__card-secondary">
+        <div class="dashboard__card-inner-secondary">
+          <h2>Grid Loss</h2>
+          <h1>{{dashboardDetail?.gridLoss | number:'0.0-8'}} USD</h1>
+          <!-- <h3><span class="loss">0.26%</span> Performance ratio</h3> -->
+        </div>
+        <div class="dashboard__card-footer">
+          <p class="loss">No.of Loss Grid</p>
+          <p class="loss">{{dashboardDetail?.totalLossGrid}}</p>
+        </div>
+      </div>
+      <div class="dashboard__card-secondary">
+        <div class="dashboard__card-inner-secondary">
+          <h2>Winning Accuracy</h2>
+          <h1>{{(+dashboardDetail?.winningAccuracy) | number:'0.0-4'}}%</h1>
+          <!-- <h3><span class="profit">0.26%</span> Performance ratio</h3> -->
+        </div>
+        <div class="dashboard__card-footer">
+          <p>No.of Grid</p>
+          <p>{{dashboardDetail?.totalGrid}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard__card-content">
+      <div class="dashboard__card-first-end">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Avg. Profit Per Grid</p>
+            <h6>{{dashboardDetail?.avgProfitGrid | number:'0.0-4'}}%</h6>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard__card-second-end">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Avg. Loss Per Grid</p>
+            <h6>{{dashboardDetail?.avgLossGrid | number:'0.0-4'}}%</h6>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard__card-third-end">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Best Grid Profit</p>
+            <h6>{{dashboardDetail?.MaxProfit | number:'0.0-4'}}%</h6>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard__card-fourth-end">
+        <div class="dashboard__card-inner">
+          <div class="dashboard__card-txt">
+            <p>Max Drawdown</p>
+            <h6>{{dashboardDetail?.MaxLoss | number:'0.0-4'}}%</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

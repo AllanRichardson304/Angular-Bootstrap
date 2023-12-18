@@ -1,0 +1,228 @@
+.exchange{
+    &__title-txt{
+        display: flex;
+        text-align: center;
+        justify-content: space-between;
+        align-items: center;
+        h2{
+            font-size: 1.6rem;
+            color: var(--black-color);  
+            font-family: "GoogleSans-Bold";
+        }
+        p{
+            font-size: 1.4rem;
+            color: var(--primary-color);  
+            font-family: "GoogleSans-Light";
+            cursor: pointer;
+        }
+        
+    }
+    &__solid-btn{
+        background-color: var(--primary-color);
+        font-size: 1.4rem;
+        color: var(--white-color);
+        padding: 0.8rem 3rem;
+        border: none;
+        outline: none;
+        font-family: "GoogleSans-Light";
+        border-radius: 0.4rem;
+    }
+    &__no-exchanges{
+      margin-top: 35rem;
+      text-align: center;
+        h2{
+            font-family: "GoogleSans-Regular";
+            font-size: 2.4rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+    }
+    &__card{
+        display: flex;
+        // flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    &__card-inner{
+        // flex: 1 1 40rem;
+        padding: 2.4rem;
+        background-color: var(--white-color);
+        border-radius: 0.8rem;
+        width: 24%;
+        border: 1px solid #EEEEEE;
+       
+    }
+    &__card-inner-content{
+        display: flex;
+        text-align: center;
+        justify-content: space-between;
+        align-items: center;
+    }
+   &__card-name{
+    display: flex;
+   }
+   &__account-name{
+    text-align: left;
+    margin-left: 2rem;
+    h2{
+        font-family: "GoogleSans-Light";
+        color: var(--black-color);
+        font-size: 1.6rem;
+    }
+    p{
+        font-family: "GoogleSans-Light";
+        color: var(--text-color);
+        font-size: 1.4rem;
+        .exchange-type {
+            background: #03267d;
+            color: #fff;
+            margin-left: 5px;
+            padding: 3px 5px;
+            font-size: 12px;
+            border-radius: 5px;
+        }
+    }
+   }
+   &__default-txt{
+    color: var(--white-color);
+    font-size: 1.2rem;
+    font-family: "GoogleSans-Light";
+    background-color:var(--primary-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 5rem;
+   }
+   &__account-name-footer{
+    text-align: left;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    h2{
+        font-family: "GoogleSans-Light";
+        color: var(--black-color);
+        font-size: 1.6rem;
+    }
+    p{
+        font-family: "GoogleSans-Light";
+        color: var(--text-color);
+        font-size: 1.4rem;
+        margin-bottom: 0;
+    }
+   }
+   &__save-btn{
+    background-color: var(--primary-color);
+    font-size: 1.4rem;
+    color: var(--white-color);
+    padding: 0.8rem 3rem;
+    border: none;
+    outline: none;
+    font-family: "GoogleSans-Light";
+    border-radius: 0.4rem;
+    width: 10rem;
+}
+&__cancel-btn{
+    background-color: transparent;
+    font-size: 1.4rem;
+    color: var(--black-color);
+    padding: 0.8rem 3rem;
+    border: 0.1rem solid var(--black-color);
+    outline: none;
+    font-family: "GoogleSans-Light";
+    border-radius: 0.4rem;
+    width: 10rem;
+}
+}
+
+.input-box{
+    height: 4rem;
+    font-family: "GoogleSans-Light";
+    font-size: 1.2rem;
+    color: var(--black-color);  
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    width: 100%;
+    padding: 0 1rem;
+    &:active{
+        border: 1px solid var(--primary-color);
+    }
+    &:hover{
+        border: 1px solid var(--primary-color);
+    }
+    &:focus{
+        border: 1px solid var(--primary-color);
+    }
+    &:focus-visible{
+        border: 1px solid var(--primary-color);
+        outline: none;
+    }
+}
+.copy-icon{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+.w-100{
+    width: 100%;
+}
+.label{
+    font-family: "GoogleSans-Light";
+    font-size: 1.2rem;
+    color: var(--text-color);  
+    margin-bottom: 0.5rem;
+}
+.check-label{
+    font-family: "GoogleSans-Light";
+    font-size: 1.2rem;
+    color: var(--black-color);  
+     margin-top: 0.3rem;
+     margin-left: 0.5rem;
+}
+.para-txt{
+    font-family: "GoogleSans-Light";
+    font-size: 1.6rem;
+    color: var(--black-color);  
+}
+
+@media (min-width: 320px) and (max-width: 540px){
+    .exchange{
+        &__card-inner{
+            width: 100%; 
+        }
+    }
+}
+@media (min-width: 541px) and (max-width: 767px) {
+    .exchange{
+        &__card-inner{
+            width: 100%; 
+        }
+    }
+}
+@media (min-width: 768px) and (max-width: 1200px) {
+    .exchange{
+        &__card-inner{
+            width: 48%;
+        }
+    }
+
+}
+@media (min-width: 1440px) and (max-width: 1680px) {
+    .exchange{
+        &__card-inner{
+            width: 23.8%;
+        }
+    }
+
+}
+@media (min-width: 1221px) and (max-width: 1339px) {
+    .exchange{
+        &__card-inner{
+            width: 49%;
+        }
+    }
+
+}
+.common-search{
+    height: 4rem;
+}
+button :disabled{
+    cursor: not-allowed;
+}

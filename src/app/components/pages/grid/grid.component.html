@@ -1,0 +1,601 @@
+<section class="grid">
+  <div class="grid__d-flex-title">
+    <h3 routerLink="/spot" >Spot</h3>
+     <img src="../../../../assets/img/svg/Union-right.png" alt="">
+    <h2>{{selectedTab}}</h2>
+  </div>
+  <div class="grid__card">
+    <div id="tabset">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs">
+        <li [ngbNavItem]="1" (click)="clearData();getActiveGrid()">
+          <a ngbNavLink >Running</a>
+          <ng-template ngbNavContent>
+            <h3 class="view-all-txt" (click)="getActiveGrid()">Refresh</h3>
+            <div id="fx">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Time Created</th>
+                    <th scope="col">Pair</th>
+                    <th scope="col">Grid Size</th>
+                    <th scope="col">Total Invstment</th>
+                    <th scope="col">Exchange Name</th>
+                    <th scope="col">Profit</th>
+                    <th scope="col">Profit (%)</th>
+                    <th scope="col">Stop Loss</th>
+                    <!-- <th scope="col">Grid Profit</th>
+                    <th scope="col">Unrealized PNL</th> -->
+                    <th scope="col">Duration</th>
+                    <th scope="col">Grid Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="activeGrid.count > 0 && !isLoading.activeGrid">
+                  <ng-container *ngFor="let data of activeGrid.list">
+                    <tr>
+                      <td>{{data?.createdAt | date:'medium'}}</td>
+                        <td>{{data?.symbol}}</td>
+                        <td>{{data?.gridLines}}</td>
+                        <td>{{data?.fundInvested}} {{data?.quoteAsset}}</td>
+                        <td>{{data?.exchangeName}}</td>
+                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}} {{data?.quoteAsset}}</td>
+                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}}%</td>
+                        <td>{{data?.stopLoss}}</td>
+                        <!-- <td>-</td>
+                        <td>-</td> -->
+                      <td>{{data?.createdAt | dateAgo}}</td>
+                      <td>{{data?.status}}</td>
+                      <td class="p-relative">
+                        <button class="transparent-btn" appPopupconfirm popupMessage="Are you sure End this trade?"
+                        (onConfirm)="gridStop(data._id)"><img class="cursor" src="../../../../assets/img/svg/Stop.svg" alt="" ></button>
+                        <span (click)="viewDetail(data)"><img class="cursor" src="../../../../assets/img/svg/eye.svg" alt=""></span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="data?.selected == true && !isLoading.activeView">
+                      <td colspan="24" >
+                        <div class="grid__table-content">
+                        <div id="tabset">
+                          <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                            <li ngbNavItem>
+                              <a ngbNavLink>Working</a>
+                              <ng-template ngbNavContent>
+                                <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>Quantity Per Order</h6>
+                                    <h1>{{(gridDetail?.amount / gridDetail?.gridLines) | number:'0.0-8'}}
+                                      {{gridDetail?.baseAsset}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Last Price</h6>
+                                    <h1>1886.25 USDT</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Current Balance</h6>
+                                    <h1>{{selectedGridBalance.quoteAsset}}{{gridDetail?.quoteAsset}} +
+                                      {{selectedGridBalance?.baseAsset}}{{gridDetail?.baseAsset}} </h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>No. of Closed Trades</h6>
+                                    <h1>{{gridCompleteDetail.completed }}</h1>
+                                  </div>
+                                </div>
+                                <div class="grid__buy-content">
+                                  <div class="grid__buy-tab">
+                                    <div class="grid__title-txt">
+                                      <div>
+                                        <h2>Buy</h2>
+                                      </div>
+                                    </div>
+                                    <div id="buy-order">
+                                      <table class="table-tag">
+                                        <thead>
+                                          <tr>
+                                            <th>Total(USDT)</th>
+                                            <th class="data-center">Size(BTC)</th>
+                                            <th class=" table-last">Price(USDT)</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let data of gridWorkingDetail.buy">
+                                            <td>{{(data?.price * data?.amount) | number:'0.0-8'}}</td>
+                                            <td class="data-center">{{data?.amount}}</td>
+                                            <td class="profit table-last">{{data?.price}}</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <div *ngIf="gridWorkingDetail.buy.length == 0" class="nodata">
+                                        <img src="../../../assets/img/svg/no-data.png">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="grid__buy-tab">
+                                    <div class="grid__title-txt">
+                                      <div>
+                                        <h2>Sell</h2>
+                                      </div>
+                                    </div>
+                                    <div id="buy-order">
+                                      <table class="table-tag">
+                                        <thead>
+                                          <tr>
+                                            <th>Total(USDT)</th>
+                                            <th class="data-center">Size(BTC)</th>
+                                            <th class=" table-last">Price(USDT)</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr *ngFor="let data of gridWorkingDetail.sell">
+                                            <td>{{(data?.price * data?.amount) | number:'0.0-8'}}</td>
+                                            <td class="data-center">{{data?.amount}}</td>
+                                            <td class="loss table-last">{{data?.price}}</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <div *ngIf="gridWorkingDetail.sell.length == 0" class="nodata">
+                                        <img src="../../../assets/img/svg/no-data.png">
+                                    </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem>
+                              <a ngbNavLink>Complete</a>
+                              <ng-template ngbNavContent>
+                                <!-- <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>24hr Matched Trades</h6>
+                                    <h1>21</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Total Matched Trade</h6>
+                                    <h1>13</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Avg. Daily Matched Trade</h6>
+                                    <h1>11</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Strategy Start Price </h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Buy Qty</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Entry Price </h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Reserved Fees</h6>
+                                    <h1>1800.00 + 24656.11 USDT</h1>
+                                  </div>
+                                </div> -->
+                                <div id="fx">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Side</th>
+                                        <th scope="col">Order type</th>
+                                        <!-- <th scope="col">Avg. Price</th> -->
+                                        <!-- <th scope="col">Executed</th> -->
+                                        <th scope="col">Open Price</th>
+                                        <th scope="col">Close Price</th>
+                                        <th scope="col">Profit</th>
+                                        <th scope="col">Profit (%)</th>
+                                        <th scope="col">Total</th>
+                                        <!-- <th scope="col">Fee</th> -->
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let data of gridCompleteDetail.list">
+                                        <td>{{data?.createdAt | date:'medium'}}</td>
+                                        <td><button type="button" class="grid__buy-btn">{{data?.side}}</button></td>
+                                        <td>Limit</td>
+                                        <td>{{data?.openPrice}} {{gridDetail?.quoteAsset}}</td>
+                                        <td>{{data?.closePrice}} {{gridDetail?.quoteAsset}}</td>
+                                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}}</td>
+                                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}} %</td>
+                                        <td>{{data?.total}} {{gridDetail?.quoteAsset}}</td>
+                                        <!-- <td>{{data?.fee}} {{gridDetail?.quoteAsset}}</td> -->
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div *ngIf="gridCompleteDetail.list.length == 0" class="nodata">
+                                    <img src="../../../assets/img/svg/no-data.png">
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem>
+                              <a ngbNavLink>Grid Details</a>
+                              <ng-template ngbNavContent>
+                                <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>Grid Size</h6>
+                                    <h1>{{gridDetail?.gridSize}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Grid number</h6>
+                                    <h1>{{gridDetail?.gridLines}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Qty Per Order</h6>
+                                    <h1>{{(gridDetail?.amount / gridDetail?.gridLines) | number:'0.0-8'}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Profit/Grid</h6>
+                                    <h1>{{gridDetail?.profit | number:'0.0-8'}} {{gridDetail?.quoteAsset}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Balance at stop</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Investment </h6>
+                                    <h1>{{gridDetail?.fundInvested}} {{gridDetail?.quoteAsset}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Fast Length </h6>
+                                    <h1>{{gridDetail?.fastLength}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Slow Length </h6>
+                                    <h1>{{gridDetail?.slowLength}}</h1>
+                                  </div>
+                                </div>
+                                <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>Oscillator Type</h6>
+                                    <h1>{{gridDetail?.oscillatorType}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Singal Line Type</h6>
+                                    <h1>{{gridDetail?.signalLineType}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Signal Smoothing</h6>
+                                    <h1>{{gridDetail?.signalSmooting}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Source</h6>
+                                    <h1>{{gridDetail?.source}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Balance at stop</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>MACD Status </h6>
+                                    <h1>{{gridDetail?.macdStatus}}</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Time Frame</h6>
+                                    <h1>{{gridDetail?.timeFrame}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stategy Stop Price</h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Stop Loss</h6>
+                                    <h1>{{gridDetail?.stopLoss}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Status</h6>
+                                    <h1>{{gridDetail?.status}}</h1>
+                                  </div>
+                                </div>
+                                <div class="grid__details">
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stategy Start Price</h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Trigger Price</h6>
+                                    <h1>-</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stop Loss</h6>
+                                    <h1>{{gridDetail?.stopLoss}}</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Take Profit</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Status</h6>
+                                    <h1>{{gridDetail?.status}}</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Time Created</h6>
+                                    <h1>{{gridDetail?.createdAt | date:'medium'}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details"></div>
+                                  <div class="grid__inner-details"></div>
+                                </div>
+                              </ng-template>
+                            </li>
+                          </ul>
+                          <!-- <h3 class="view-all-txt">View All</h3> -->
+                          <div [ngbNavOutlet]="nav"></div>
+                        </div>
+                      </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+              <div *ngIf="activeGrid.count > 10 && !isLoading.activeGrid">
+                <ngb-pagination [collectionSize]="activeGrid.count" [(page)]="pageIndex" [maxSize]="10" [ellipses]="true" [boundaryLinks]="false" (pageChange)="getActiveGrid()"></ngb-pagination>
+              </div>
+              <div *ngIf="activeGrid.count == 0 && !isLoading.activeGrid" class="nodata">
+                <img src="../../../assets/img/svg/no-data.png">
+              </div>
+              <div *ngIf="isLoading.activeGrid">
+                <app-loader></app-loader>
+              </div>
+            </div>
+
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" (click)="clearData();getGridHistory()">
+          <a ngbNavLink >History</a>
+          <ng-template ngbNavContent>
+            <h3 class="view-all-txt" (click)="getGridHistory()">Refresh</h3>
+            <div id="fx">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Time Created</th>
+                    <th scope="col">Pair</th>
+                    <th scope="col">Grid Size</th>
+                    <th scope="col">Total Invstment</th>
+                    <th scope="col">Exchange Name</th>
+                    <th scope="col">Profit</th>
+                    <th scope="col">Profit (%)</th>
+                    <th scope="col">Stop Loss</th>
+                    <!-- <th scope="col">Grid Profit</th>
+                    <th scope="col">Unrealized PNL</th> -->
+                    <th scope="col">Duration</th>
+                    <th scope="col">Grid Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="!isLoading.gridHistory && tradeHistory.count > 0">
+                  <ng-container *ngFor="let data of tradeHistory.list">
+                    <tr>
+                      <td>{{data?.createdAt | date:'medium'}}</td>
+                        <td>{{data?.symbol}}</td>
+                        <td>{{data?.gridLines}}</td>
+                        <td>{{data?.fundInvested}} {{data?.quoteAsset}}</td>
+                        <td>{{data?.exchangeName}}</td>
+                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}} {{data?.quoteAsset}}</td>
+                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}}%</td>
+                        <td>{{data?.stopLoss}}</td>
+                        <!-- <td>-</td>
+                        <td>-</td> -->
+                      <td>{{data?.createdAt | detaildateAgo: data?.updatedAt}}</td>
+                      <td>{{data?.status}}</td>
+                      <td>
+                        <!-- <img src="../../../../assets/img/svg/Stop.svg" alt=""> -->
+                        <span (click)="tradeViewDetail(data)"><img class="cursor"  src="../../../../assets/img/svg/eye.svg"
+                            alt=""></span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="data?.selected == true && !isLoading.tradeView">
+                      <td colspan="24" >
+                        <div class="grid__table-content">
+                        <div id="tabset">
+                          <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                            <li ngbNavItem>
+                              <a ngbNavLink>Trade History</a>
+                              <ng-template ngbNavContent>
+                                <!-- <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>24hr Matched Trades</h6>
+                                    <h1>21</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Total Matched Trade</h6>
+                                    <h1>13</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Avg. Daily Matched Trade</h6>
+                                    <h1>11</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Strategy Start Price </h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Buy Qty</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Entry Price </h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Reserved Fees</h6>
+                                    <h1>1800.00 + 24656.11 USDT</h1>
+                                  </div>
+
+                                </div> -->
+                                <div id="fx">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Side</th>
+                                        <th scope="col">Order type</th>
+                                        <th scope="col">Open Price</th>
+                                        <th scope="col">Close Price</th>
+                                        <th scope="col">Profit</th>
+                                        <th scope="col">Profit (%)</th>
+                                        <!-- <th scope="col">Executed</th> -->
+                                        <th scope="col">Total</th>
+                                        <!-- <th scope="col">Fee</th> -->
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let data of gridCompleteDetail.list">
+                                        <td>{{data?.createdAt | date:'medium'}}</td>
+                                        <td><button type="button" class="grid__buy-btn">{{data?.side}}</button></td>
+                                        <td>Limit</td>
+                                        <td>{{data?.openPrice}} {{gridDetail?.quoteAsset}}</td>
+                                        <td>{{data?.closePrice}} {{gridDetail?.quoteAsset}}</td>
+                                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}}</td>
+                                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}} %</td>
+                                        <!-- <td>{{data?.openPrice}}</td> -->
+                                        <td>{{data?.total}} {{gridDetail?.quoteAsset}}</td>
+                                        <!-- <td>{{data?.fee}} {{gridDetail?.quoteAsset}}</td> -->
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div *ngIf="gridCompleteDetail.list.length == 0" class="nodata">
+                                    <img src="../../../assets/img/svg/no-data.png">
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem>
+                              <a ngbNavLink>Grid Details</a>
+                              <ng-template ngbNavContent>
+                                <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>Grid Size</h6>
+                                    <h1>{{gridDetail?.gridSize}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Grid number</h6>
+                                    <h1>{{gridDetail?.gridLines}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Qty Per Order</h6>
+                                    <h1>{{(gridDetail?.amount / gridDetail?.gridLines) | number:'0.0-8'}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Profit/Grid</h6>
+                                    <h1>{{gridDetail?.profit | number:'0.0-8'}} {{gridDetail?.quoteAsset}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Balance at stop</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Initial Investment </h6>
+                                    <h1>{{gridDetail?.fundInvested}} {{gridDetail?.quoteAsset}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Fast Length </h6>
+                                    <h1>{{gridDetail?.fastLength}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Slow Length </h6>
+                                    <h1>{{gridDetail?.slowLength}}</h1>
+                                  </div>
+                                </div>
+                                <div class="grid__details">
+                                  <div class="grid__inner-details">
+                                    <h6>Oscillator Type</h6>
+                                    <h1>{{gridDetail?.oscillatorType}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Singal Line Type</h6>
+                                    <h1>{{gridDetail?.signalLineType}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Signal Smoothing</h6>
+                                    <h1>{{gridDetail?.signalSmooting}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Source</h6>
+                                    <h1>{{gridDetail?.source}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Balance at stop</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>MACD Status </h6>
+                                    <h1>{{gridDetail?.macdStatus}}</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Time Frame</h6>
+                                    <h1>{{gridDetail?.timeFrame}}</h1>
+                                  </div>
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stategy Stop Price</h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Stop Loss</h6>
+                                    <h1>{{gridDetail?.stopLoss}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details">
+                                    <h6>Status</h6>
+                                    <h1>{{gridDetail?.status}}</h1>
+                                  </div>
+                                </div>
+                                <div class="grid__details">
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stategy Start Price</h6>
+                                    <h1>24656.11 USDT</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Trigger Price</h6>
+                                    <h1>-</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Stop Loss</h6>
+                                    <h1>{{gridDetail?.stopLoss}}</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Take Profit</h6>
+                                    <h1>0.000173 BTC</h1>
+                                  </div> -->
+                                  <!-- <div class="grid__inner-details">
+                                    <h6>Status</h6>
+                                    <h1>{{gridDetail?.status}}</h1>
+                                  </div> -->
+                                  <div class="grid__inner-details">
+                                    <h6>Time Created</h6>
+                                    <h1>{{gridDetail?.createdAt | date:'medium'}}</h1>
+                                  </div>
+                                  <div class="grid__inner-details"></div>
+                                  <div class="grid__inner-details"></div>
+                                </div>
+                              </ng-template>
+                            </li>
+                          </ul>
+                          <!-- <h3 class="view-all-txt">View All</h3> -->
+                          <div [ngbNavOutlet]="nav"></div>
+                        </div>
+                      </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+              <div *ngIf="!isLoading.gridHistory && tradeHistory.count > 10">
+                <ngb-pagination [collectionSize]="tradeHistory.count" [(page)]="pageIndex" [maxSize]="10" [ellipses]="true" [boundaryLinks]="false" (pageChange)="getGridHistory()"></ngb-pagination>
+              </div>
+              <div *ngIf="!isLoading.gridHistory && tradeHistory.count == 0" class="nodata">
+                <img src="../../../assets/img/svg/no-data.png">
+              </div>
+              <div *ngIf="isLoading.gridHistory">
+                <app-loader></app-loader>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+     
+      <div [ngbNavOutlet]="nav"></div>
+    </div>
+  </div>
+</section>

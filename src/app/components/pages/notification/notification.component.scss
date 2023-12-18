@@ -1,0 +1,29 @@
+.notification{
+    &__title-txt{
+        h2{
+            font-size: 1.6rem;
+            color: var(--black-color);  
+            font-family: "GoogleSans-Bold";
+            margin-bottom: 2rem;
+        }
+    }
+    &__card{
+        background-color: var(--white-color);
+        padding: 2.4rem;
+        width: 100%;
+    }
+    &__td-title{
+        font-family: "GoogleSans-Bold";
+    }
+    &__save-btn {
+        background-color: var(--primary-color);
+        font-size: 1.4rem;
+        color: var(--white-color);
+        padding: 0.8rem 3rem;
+        border: none;
+        outline: none;
+        font-family: "GoogleSans-Light";
+        border-radius: 0.4rem;
+        float: right;
+      }
+}

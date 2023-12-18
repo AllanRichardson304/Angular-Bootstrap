@@ -1,0 +1,64 @@
+<section class="wallet">
+  <div class="wallet__title-txt">
+    <div>
+      <h2>Wallet</h2>
+    </div>
+    <!-- <div>
+        <p >Balance</p>
+        <h1>3,711.62 <span>USDT</span></h1>
+     </div> -->
+
+  </div>
+  <div class="wallet__no-exchanges" *ngIf="noExchangeFound">
+    <h2>No exchange connected</h2>
+  </div>
+  <div class="wallet__card-content" *ngIf="!noExchangeFound">
+    <div class="wallet__card">
+      <!-- <h2 class="wallet__card-title">Spot</h2> -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Assets</th>
+            <th scope="col">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of accountBalanceList">
+            <td> <img src="../../../../assets/img/coins-list/{{data?.asset.toLowerCase()}}.svg" width="30" alt="">
+              {{data?.asset}}</td>
+            <td>{{data?.free | number:'0.0-8'}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="accountBalanceList.length == 0 && !isLoading" class="nodata">
+        <img src="../../../assets/img/svg/no-data.png"></div>
+      <div *ngIf="isLoading">
+        <app-loader></app-loader>
+      </div>
+      <div *ngIf="tempWalletBalance.length > 10 && !isLoading">
+        <ngb-pagination [collectionSize]="tempWalletBalance.length" [(page)]="pageIndex" [maxSize]="10" [ellipses]="true" [boundaryLinks]="false" (pageChange)="eventchange(pageIndex, 10,tempWalletBalance)"></ngb-pagination>
+      </div>
+    </div>
+    <!-- <div class="wallet__card">
+      <h2 class="wallet__card-title">Future</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Assets</th>
+            <th scope="col">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of fxAccountBalanceList">
+            <td> <img src="../../../../assets/img/coins-list/btc.svg" width="30" alt=""> Tether/USDT</td>
+            <td>0.90954 </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="fxAccountBalanceList.length == 0 && !isFxLoading">No Data</div>
+      <div *ngIf="isFxLoading">
+        <app-loader></app-loader>
+      </div>
+    </div> -->
+  </div>
+</section>

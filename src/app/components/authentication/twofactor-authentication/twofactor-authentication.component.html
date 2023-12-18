@@ -1,0 +1,19 @@
+<section class="auth">
+    <div class="auth__banner">
+         <div class="auth__card"> 
+            <div class="auth__card-inner">
+               <img src="../../../../assets/img/banner/Logo_Full.png" alt="">
+               <h2>Two-Factor Authentication</h2>
+               <p>A verification code has been sent to your email. The code will be <br> valid for 5 minutes.</p>
+               <h6>Please enter the code PIN</h6>
+               <div class="auth__model-otp" id="codeinput">
+                <code-input #codeInput [codeLength]="codelength" (codeChanged)="onCodeChanged($event)">
+                </code-input>
+             
+              <button type="button" class="auth__save-btn" [disabled]="verifycode?.length < 6 || isLoad" (click)="verify2Fa()">Verify</button>
+              </div>
+            </div>
+         </div>
+    </div>
+</section>
+<app-toast></app-toast>

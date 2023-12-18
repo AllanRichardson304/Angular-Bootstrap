@@ -1,0 +1,165 @@
+.header{
+  height: 6rem;
+  background-color: var(--white-color);  
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  justify-content: space-between;
+  position:fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.bell-btn{
+  background-color: transparent;
+  border: 0.1rem solid var(--border);
+  padding: 0.8rem ;
+  border-radius: 0.4rem;
+  margin-right: 2rem;
+  height: 4rem;
+  position: relative;
+}
+.select-txt{
+  font-size: 1.6rem;
+  color: var(--black-color);
+  font-family: "GoogleSans-Bold";
+  border: none;
+  box-shadow: none;
+  outline: none;
+  margin-bottom: 0;
+padding-bottom: 0;
+}
+.exhange-txt{
+  margin-bottom: 0;
+  font-family: "GoogleSans-Light";
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin-left: 4rem;
+text-align: left;
+position: relative;
+top: -1.5rem;
+span{
+  background-color: var(--primary-color);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.4rem;
+  font-size: 1.2rem;
+  color: var(--white-color);
+  margin-left: 0.3rem;
+}
+
+
+}
+.notification-title{
+  font-family: "GoogleSans-Bold";
+  color: var(--dark-black);
+  font-size: 1.4rem; 
+}
+.d-flex-content{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  
+}
+.notification-content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  h3{
+    font-family: "GoogleSans-Bold";
+    color: var(--dark-black);
+    font-size: 1.4rem; 
+  }
+  h6{
+    font-family: "GoogleSans-Light";
+    color: var(--text-color);
+    font-size: 1.2rem;
+    position: absolute;
+    right: 0rem;
+    cursor: pointer;
+    &:hover{
+     text-decoration: underline;
+    }
+  }
+}
+.notifiction-inner{
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  align-items: center;
+  padding: 0 0.5rem;
+  border-bottom: 0.1rem solid var(--text-color);
+h5{
+  font-family: "GoogleSans-Light";
+  color: var(--dark-black);
+  font-size: 1.2rem; 
+  margin-bottom: 0;
+  text-align: left;
+}
+p{
+  font-family: "GoogleSans-Light";
+  color: var(--text-color);
+  font-size: 1.2rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+}
+.exchange-icon{
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
+.logo-small{
+  display: none;
+}
+.view-all{
+  text-align: center;
+  font-family: "GoogleSans-Light";
+  color: var(--text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+@media (min-width: 320px) and (max-width: 540px){
+  .logo-full{
+    display: none;
+  }
+  .logo-small{
+    display: block;
+    margin-left: 2rem;
+  }
+}
+@media (min-width: 541px) and (max-width: 767px) {
+  .logo-full{
+    display: none;
+  }
+  .logo-small{
+    display: block;
+    margin-left: 2rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .logo-full{
+    display: block;
+    margin-left: 2rem;
+  }
+  .logo-small{
+    display: none;
+    margin-left: 2rem;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .logo-full{
+    display: block;
+    margin-left: 2rem;
+  }
+  .logo-small{
+    display: none;
+    margin-left: 2rem;
+  }
+}

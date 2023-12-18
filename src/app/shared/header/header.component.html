@@ -1,0 +1,61 @@
+<div class="header">
+    <div>
+        <img class="logo-full" src="../../../assets/img/banner/Logo_Full.png" alt="">
+        <img class="logo-small" src="../../../assets/img/banner/Logo_40.png" alt="">
+    </div>
+    <div>
+        <div class="d-flex-content" *ngIf="role == 'user'">
+            <button type="button" class="bell-btn" *ngIf="userDetail?.statusPinLock" (click)="lockScreen()"> <img
+                    src="../../../assets/img/sidemenu/lock.svg" alt="" width="20"></button>
+            <button type="button" class="bell-btn" placement="bottom" [ngbPopover]="notification" popoverTitle=""> <img
+                    src="../../../assets/img/svg/bell.svg" alt="" width="20">
+                <span *ngIf="notificationCount > 0"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-badge">
+                    {{notificationCount}}
+                </span></button>
+            <div class="d-block" *ngIf="userExchangeList.length > 0">
+                <div class="d-flex-content">
+                    <img class="exchange-icon"
+                        src="../../../assets/img/exchange-logo/{{selectedExchangeDetail && selectedExchangeDetail?.exchangeName.toLowerCase()}}.svg"
+                        width="30" alt="">
+                    <!-- <select class="form-select select-txt" aria-label="Default select example"
+                        [(ngModel)]="selectedExchange" (ngModelChange)="chooseExchange()">
+                        <option selected value="null" disabled>Select Exchange</option>
+                        <option *ngFor="let data of userExchangeList" [value]=data.accountName>{{data?.accountName}}
+                        </option>
+                    </select> -->
+                    <div id="header-select">
+                        <app-search-dropdown class="common-search" [isSearch]="false" [(ngModel)]="selectedExchange"
+                            (ngModelChange)="chooseExchange()">
+                            <app-option *ngFor="let data of userExchangeList" [value]=data.accountName [label]="data.accountName"></app-option>
+                        </app-search-dropdown>
+                    </div>
+                    <br>
+                </div>
+                <p class="exhange-txt">{{selectedExchangeDetail?.exchangeName}} <span>{{selectedExchangeDetail?.accountType}}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #notification>
+    <div>
+        <div class="notification-content">
+            <h3 class="notification-title">Notification</h3>
+            <h6 (click)="readAllNotification()">Mark as read</h6>
+        </div>
+        <div *ngIf="notificationList.length == 0">
+            <img src="../../../assets/img/svg/no-data.png">
+        </div>
+        <div class="notifiction-inner" *ngFor="let data of notificationList">
+            <div>
+                <h5>{{data?.title}}</h5>
+                <p>{{data?.message}}</p>
+            </div>
+            <div>
+                <p>{{data?.createdAt | dateAgo }}</p>
+            </div>
+        </div>
+        <div class="view-all" routerLink="/notification" (click)="readAllNotification()">View All</div>
+    </div>
+
+</ng-template>

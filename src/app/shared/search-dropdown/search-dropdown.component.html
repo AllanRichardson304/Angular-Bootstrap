@@ -1,0 +1,20 @@
+<div class="search-dropdown" >
+  <div>
+    <div class="signup-seacrhdropdown">
+      <input [(ngModel)]="selectedLabel" readonly [placeholder]="selectPlaceholder" (click)="inputFocus()"
+      >
+      <img class="fa" src="../../../assets/img/svg/select-arrow.png" alt=""  (click)="inputFocus()">
+      <!-- <i class="fa"
+        [ngClass]="{'fa-sort-desc': ((isSearch && !dropdownClicked) || !isSearch), 'fa-sort-up' : dropdownClicked}"
+       ></i> -->
+    </div>
+  </div>
+
+  <div class="option-list"  [hidden]="!dropdownClicked">
+    <input *ngIf="isSearch" value="" id='searchinput' (input)="searchResult($event)" placeholder="Search">
+    <i *ngIf="isSearch" class="fa fa-search"></i>
+    <div *ngIf="isEmpty">No Data</div>
+    <div *ngIf="dataLength == 0">No Data</div>
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,418 @@
+.spot {
+  &__title-txt {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 1.6rem;
+      color: var(--black-color);
+      font-family: "GoogleSans-Bold";
+    }
+    p {
+      font-size: 1.4rem;
+      color: var(--primary-txt);
+      font-family: "GoogleSans-Light";
+      margin-bottom: 0;
+      text-align: right;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--primary-color);
+      font-family: "GoogleSans-Bold";
+      text-align: right;
+    }
+    span {
+      font-size: 2rem;
+      color: var(--primary-txt);
+      font-family: "GoogleSans-Bold";
+      text-align: right;
+    }
+  }
+  &__card {
+    background-color: var(--white-color);
+    padding: 2.4rem;
+    width: 100%;
+    margin-top: 2rem;
+    border-radius: 0.8rem;
+    border: 0.1rem solid var(--border);
+  }
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__col-first {
+    flex: 19 1 40rem;
+    padding-right: 1rem;
+    border-right: 0.1rem solid var(--border);
+  }
+  &__col-second {
+    flex: 1 1 35rem;
+    padding-left: 1rem;
+  }
+  &__col-first-inner {
+    flex: 0 1 38rem;
+    padding-right: 1rem;
+    border-right: 0.1rem solid var(--border);
+  }
+  &__col-second-inner {
+    flex: 1 1 40rem;
+    padding-left: 1rem;
+  }
+  &__table-data {
+    color: var(--black-color) !important;
+  }
+  &__select-pari {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  &__d-flex-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+  }
+  &__pair-txt {
+    h4 {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      font-family: "GoogleSans-Regular";
+    }
+    p {
+      font-size: 1.2rem;
+      color: var(--black-color);
+      font-family: "GoogleSans-Regular";
+    }
+  }
+  &__label-txt {
+    font-family: "GoogleSans-Light";
+    font-size: 1.6rem;
+    color: var(--black-color);
+    margin-left: 0.5rem;
+  }
+  &__save-btn {
+    background-color: var(--primary-color);
+    font-size: 1.4rem;
+    color: var(--white-color);
+    padding: 0.8rem 3rem;
+    border: none;
+    outline: none;
+    font-family: "GoogleSans-Light";
+    border-radius: 0.4rem;
+    width: 100%;
+  }
+  &__cancel-btn {
+    background-color: transparent;
+    font-size: 1.4rem;
+    color: var(--black-color);
+    padding: 0.8rem 3rem;
+    border: 0.1rem solid var(--black-color);
+    outline: none;
+    font-family: "GoogleSans-Light";
+    border-radius: 0.4rem;
+    width: 100%;
+  }
+  &__chart{
+    height: 40rem;
+  }
+  &__title-txt-modal{
+    h2{
+      font-size: 1.6rem;
+      color: var(--black-color);
+      font-family: "GoogleSans-Bold";
+      position: relative;
+      top: 2rem;
+      left: -3rem;
+    }
+  }
+  &__balance-card{
+    background-color: #FAFAFA;
+    padding: 2.4rem;
+    display: block;
+    text-align: center;
+    border-radius: 0.8rem;
+    h3{
+      font-family: "GoogleSans-Light";
+      color: var(--black-color);
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    h6{
+      font-family: "GoogleSans-Light";
+      color: var(--text-color);
+      font-size: 1.2rem;
+      margin-bottom: 0;
+    }
+  }
+  &__balance-list{
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+    align-items: center;
+    p{
+      font-family: "GoogleSans-Light";
+      color: var(--text-color);
+      font-size: 1.2rem;
+      margin-bottom: 0;
+      margin-left: 2rem;
+    }
+    h3{
+      font-family: "GoogleSans-Light";
+      color: var(--black-color);
+      font-size: 1.6rem;
+    }
+  }
+ 
+}
+.table-tag {
+  width: 100% !important;
+}
+.profit {
+  color: var(--profit-color) !important;
+  z-index: 10000;
+}
+.loss{
+  color: var(--loss-color) !important;
+  z-index: 10000;
+
+}
+.table-last {
+  text-align: right;
+  position: relative;
+}
+.table-data{
+  position: relative;
+}
+.data-center {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+.border-b {
+  margin: 1rem 0;
+  border-bottom: 0.1rem solid var(--border);
+}
+.input-box {
+  height: 4rem;
+  font-family: "GoogleSans-Light";
+  font-size: 1.2rem;
+  color: var(--black-color);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  width: 100%;
+  padding: 0 1rem;
+  &:active {
+    border: 1px solid var(--primary-color);
+  }
+  &:hover {
+    border: 1px solid var(--primary-color);
+  }
+  &:focus {
+    border: 1px solid var(--primary-color);
+  }
+  &:focus-visible{
+    border: 1px solid var(--primary-color);
+    outline: none;
+}
+}
+.label {
+  font-family: "GoogleSans-Light";
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+.d-flex-content {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+}
+.d-flex-select {
+  display: flex;
+  gap: 2rem;
+}
+.range-progress {
+  background-color: #f1c232;
+  width: 100%;
+}
+.progress{
+    background: linear-gradient(to right, #F1C232 0%,#F1C232 40%, #E0E0E0 40%, #E0E0E0 100%);
+    border: none;
+    border-radius: 8px;
+    height: 9px;
+    width: 100%;
+    outline: none;
+    transition: background 450ms ease-in;
+    -webkit-appearance: none;
+  }
+
+  .progress::-ms-webkit-slider-thumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    -webkit-appearance: none;
+    cursor: ew-resize;
+    background: #0f0f0f;
+  }
+
+  .progress {
+    --bs-progress-height: 0.7rem;
+    --bs-progress-font-size: 1.75rem;
+    overflow: auto;
+  }
+
+
+.form-content {
+  height: 60rem;
+  overflow-y: auto;
+}
+.form-content::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.form-content::-webkit-scrollbar {
+  width: 5px;
+}
+.form-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+.view-all-txt {
+  font-size: 1.4rem;
+  font-family: "GoogleSans-Light";
+  color: var(--primary-color);
+  float: right;
+  position: relative;
+  top: -3rem;
+  cursor: pointer;
+}
+.copy-icon{
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+.price-txt{
+    color: var(--text-color);
+    font-family: "GoogleSans-Light";
+    font-size: 1.2rem;
+}
+.value-txt{
+    color: var(--black-color);
+    font-family: "GoogleSans-Light";
+    font-size: 1.4rem;
+}
+.d-flex-price {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .ask-progress-bar{
+    opacity: 0.65;
+    position: absolute;
+    z-index: 0;
+    right:0px;
+    background-color:#E0FFEE;
+    height: 20px;
+    cursor: pointer;
+    z-index: 111;
+  }
+  .progress-bar{
+    opacity: 0.65;
+    position: absolute;
+    z-index: 0;
+    right:0px;
+    background-color:#FFEAEA;
+    height: 20px;
+    z-index: 111;
+
+}
+.edit-icon{
+  margin-left: 0.5rem;
+}
+#sell-order{
+  position: relative;
+  height: 19rem;
+}
+#buy-order{
+  position: relative;
+  height: 19rem;
+}
+.p-relative{
+  position: relative;
+}
+.stop-icon{
+  margin-right: 0.5rem;
+}
+
+.leverage-value{
+  border: 1px solid #EEEEEE;
+  font-size: 1.4rem;
+  color: var( --text-color);  
+  font-family: "GoogleSans-Light";
+  padding: 0.5rem 1rem;
+  width: 5rem;
+  margin-top: 1.5rem;
+  p{
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 320px) and (max-width: 540px){
+  .spot{
+    &__row {
+      display: block;
+    }
+  }
+  #spot{
+    width: 100%;
+    overflow: hidden;
+  }
+}
+@media (min-width: 541px) and (max-width: 767px) {
+  .spot{
+    &__row {
+      display: block;
+    }
+  }
+  #spot{
+    width: 100%;
+    overflow: hidden;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .spot{
+    &__row {
+      display: block;
+    }
+  }
+
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .spot{
+    &__row {
+      display: block;
+    }
+  }
+
+}
+// @media (min-width: 1440px) and (max-width: 1680px) {
+//   .spot{
+
+//   }
+
+// }
+// @media (min-width: 1221px) and (max-width: 1339px) {
+//   .spot{
+   
+//   }
+
+// }
+.cursor{
+  cursor: pointer;
+}

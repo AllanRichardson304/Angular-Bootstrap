@@ -1,0 +1,210 @@
+<section class="coinpair">
+    <div class="coinpair__title-txt">
+        <div>
+            <h2>Future</h2>
+        </div>
+    </div>
+    <div class="coinpair__card">
+        <div class="coinpair__flex">
+            <div>
+                <div class="input-group mb-3">
+                    <input type="textbox" class="coinpair__input-box" placeholder="Search by coin Name"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="searchTxt"
+                        (ngModelChange)="search()">
+                </div>
+            </div>
+            <div id="fx-coinpar-select">
+                <app-search-dropdown class="common-search" [isSearch]="false" [(ngModel)]="exchangeName"
+                    (ngModelChange)="onChangeExchange()">
+                    <app-option [value]="'kucoin'" [label]="'Kucoin'"></app-option>
+                    <app-option [value]="'bybit'" [label]="'Bybit'"></app-option>
+                    <app-option *ngIf="selectedTab == 'spot'" [value]="'bitrue'" [label]="'Bitrue'"></app-option>
+                </app-search-dropdown>
+            </div>
+        </div>
+        <div id="tabset">
+            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                <li ngbNavItem (click)="selectedTab = 'spot';pageIndex = 1; getSpotCoinpair()">
+                    <a ngbNavLink>SPOT</a>
+                    <ng-template ngbNavContent>
+                        <div id="spot">
+                            <button class="coinpair__import-btn" [disabled]="isLoading.spot"
+                                (click)="importCoinPairSpot()">
+                                <app-loader *ngIf="isLoading.spot"></app-loader>Import
+                            </button>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sl.No</th>
+                                        <th scope="col">Symbol</th>
+                                        <th scope="col">Base Asset</th>
+                                        <th scope="col">Quote asset</th>
+                                        <th scope="col">Decimal</th>
+                                        <th scope="col">Base Precision</th>
+                                        <th scope="col">Quote Precision</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of spotCoinPairList; let i = index">
+                                        <td>{{10*pageIndex+(i+1)-10}}</td>
+                                        <td>{{data?.symbol}}</td>
+                                        <td>{{data?.baseAsset}}</td>
+                                        <td>{{data?.quoteAsset}}</td>
+                                        <td>{{data?.decimal}}</td>
+                                        <td>{{data?.baseAssetPrecision}}</td>
+                                        <td>{{data?.quoteAssetPrecision}}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" [ngModel]="data?.status"
+                                                    id="flexSwitchCheckDefault+{{i}}" disabled>
+                                                <label class="form-check-label" for="flexSwitchCheckDefault+{{i}}"></label>
+                                            </div>
+                                        </td>
+                                        <td><button class="coinpair__save-btn"
+                                                (click)="open(editModal, data)">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="nodata" *ngIf="!isLoading.table && tempSpotCoinPairList.length == 0">
+                                <img src="../../../../assets/img/svg/no-data.png" alt="">
+                            </div>
+                            <div *ngIf="isLoading.table">
+                                <app-loader></app-loader>
+                            </div>
+                            <div *ngIf="tempSpotCoinPairList.length > 10 && !isLoading.table">
+                                <ngb-pagination [collectionSize]="tempSpotCoinPairList.length" [(page)]="pageIndex"
+                                    [maxSize]="10" [ellipses]="true" [boundaryLinks]="false"
+                                    (pageChange)="onSpotPageChange()"></ngb-pagination>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+                <li ngbNavItem (click)="selectedTab = 'fx';pageIndex=1;getFxCoinpair()">
+                    <a ngbNavLink>FX</a>
+                    <ng-template ngbNavContent>
+                        <div id="spot">
+                            <button class="coinpair__import-btn" [disabled]="isLoading.fx" (click)="importCoinPairFx()">
+                                <app-loader *ngIf="isLoading.fx"></app-loader>Import
+                            </button>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sl.No</th>
+                                        <th scope="col">Symbol</th>
+                                        <th scope="col">Base Asset</th>
+                                        <th scope="col">Quote asset</th>
+                                        <th scope="col">Decimal</th>
+                                        <th scope="col">Base Precision</th>
+                                        <th scope="col">Quote Precision</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of fxCoinPairList; let i = index">
+                                        <td>{{10*pageIndex+(i+1)-10}}</td>
+                                        <td>{{data?.symbol}}</td>
+                                        <td>{{data?.baseAsset}}</td>
+                                        <td>{{data?.quoteAsset}}</td>
+                                        <td>{{data?.tickSize}}</td>
+                                        <td>{{data?.baseAssetPrecision}}</td>
+                                        <td>{{data?.quoteAssetPrecision}}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch" [ngModel]="data?.status"
+                                                    id="flexSwitchCheckDefaultfx+{{i}}" disabled>
+                                                <label class="form-check-label" for="flexSwitchCheckDefaultfx+{{i}}"></label>
+                                            </div>
+                                        </td>
+                                        <td><button class="coinpair__save-btn"
+                                                (click)="open(editModal, data)">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="nodata" *ngIf="!isLoading.table && tempFxCoinPairList.length == 0">
+                                <img src="../../../../assets/img/svg/no-data.png" alt="">
+                            </div>
+                            <div *ngIf="isLoading.table">
+                                <app-loader></app-loader>
+                            </div>
+                            <div *ngIf="tempFxCoinPairList.length > 10 && !isLoading.table">
+                                <ngb-pagination [collectionSize]="tempFxCoinPairList.length" [(page)]="pageIndex"
+                                    [maxSize]="10" [ellipses]="true" [boundaryLinks]="false"
+                                    (pageChange)="onFxPageChange()"></ngb-pagination>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="nav"></div>
+        </div>
+    </div>
+
+    <ng-template #editModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Edit {{selectedCoinPairDetail?.symbol}}</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="w-100">
+                <form [formGroup]="editForm">
+                    <label class="label">BaseAsset Precision</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="input-box" formControlName="basePrecision">
+                    </div>
+                    <ng-container *ngIf="editForm.controls['basePrecision'].dirty">
+                        <p class="err-txt" *ngIf="editForm.controls['basePrecision'].hasError('required')">
+                            Input BasAsset Precision value
+                        </p>
+                    </ng-container>
+
+                    <label class="label">QuoteAsset Precision</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="input-box" formControlName="quotePrecision">
+                    </div>
+                    <ng-container *ngIf="editForm.controls['quotePrecision'].dirty">
+                        <p class="err-txt" *ngIf="editForm.controls['quotePrecision'].hasError('required')">
+                            Input QuoteAsset Precision value
+                        </p>
+                    </ng-container>
+
+                    <label class="label">Decimal</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="input-box" formControlName="decimal">
+                    </div>
+                    <ng-container *ngIf="editForm.controls['decimal'].dirty">
+                        <p class="err-txt" *ngIf="editForm.controls['decimal'].hasError('required')">
+                            Input decimal value
+                        </p>
+                    </ng-container>
+                    <div class="coinpair__flex-space">
+                        <label class="label">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                formControlName="status">
+                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="coinpair__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+            <button *ngIf="selectedTab == 'spot'" type="button" class="coinpair__save-btn"
+                [disabled]="editForm.invalid || isLoading.isEdit" (click)="spotEditCoinPair()">
+                <span *ngIf="isLoading.isEdit" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                Save
+            </button>
+            <button *ngIf="selectedTab == 'fx'" type="button" class="coinpair__save-btn"
+                [disabled]="editForm.invalid || isLoading.isEdit" (click)="fxEditCoinPair()">
+                <span *ngIf="isLoading.isEdit" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                Save
+            </button>
+        </div>
+    </ng-template>
+</section>

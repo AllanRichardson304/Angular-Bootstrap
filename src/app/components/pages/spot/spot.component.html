@@ -1,0 +1,577 @@
+<section class="spot">
+  <div class="spot__title-txt">
+    <div>
+      <h2>Spot</h2>
+    </div>
+    <div>
+      <p (click)="openEnd(content)">View Balance</p>
+      <!-- <h1>{{accountBalance?.balance}} <span>USDT</span></h1> -->
+    </div>
+
+  </div>
+
+  <div class="spot__card">
+
+    <div class="spot__row">
+      <div class="spot__col-first">
+        <div class="spot__row border-b">
+          <div class="spot__col-first-inner">
+            <div class="spot__title-txt">
+              <div>
+                <h2>Buy Order Book</h2>
+              </div>
+            </div>
+            <div id="buy-order">
+              <table class="table-tag">
+                <thead>
+                  <tr>
+                    <th>Total({{selectedTradePairDetail?.quoteAsset}})</th>
+                    <th class="data-center">Size({{selectedTradePairDetail?.baseAsset}})</th>
+                    <th class=" table-last">Price({{selectedTradePairDetail?.quoteAsset}})</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of orderBookData.bid">
+                    <td class="table-data">{{data?.total | number:'0.0-8'}}</td>
+                    <td class="data-center table-data">{{data?.quantity | number:'0.0-8'}}</td>
+                    <td class="profit table-last ">{{data?.price | number:'0.0-8'}}</td>
+                    <div [ngClass]="{'ask-progress-bar': (+data?.percent) > 0 }" 
+                      [style.width.%]="data?.widthPercent">
+                  </div>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="spot__title-txt">
+              <div>
+                <h2>Sell Order Book</h2>
+              </div>
+            </div>
+            <div id="sell-order">
+              <table class="table-tag">
+                <thead>
+                  <tr>
+                    <th>Total({{selectedTradePairDetail?.quoteAsset}})</th>
+                    <th class="data-center">Size({{selectedTradePairDetail?.baseAsset}})</th>
+                    <th class=" table-last">Price({{selectedTradePairDetail?.quoteAsset}})</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of orderBookData.ask">
+                    <td class="table-data">{{data?.total | number:'0.0-8'}}</td>
+                    <td class="data-center table-data">{{data?.quantity | number:'0.0-8'}}</td>
+                    <td class="loss table-last">{{data?.price | number:'0.0-8'}}</td>
+                    <div [ngClass]="{'progress-bar': (+data?.percent) > 0 }" 
+                      [style.width.%]="data?.widthPercent">
+                  </div>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="spot__col-second-inner">
+            <div class="spot__select-pari">
+              <div class="spot__d-flex-content">
+                <div>
+                  <div id="exchange-pair">
+                    <!-- <select class="form-select mb-3" aria-label="Default select example" [(ngModel)]="selectedTradePair">
+                      <option *ngFor="let data of exchangeInfoList" [value]="data">{{data?.baseAsset}}/{{data?.quoteAsset}}</option>
+                    </select> -->
+                  </div>
+                </div>
+                <div class="spot__pair-txt">
+                  <h4>Coin Pair</h4>
+                  <p>{{selectedTradePair}}</p>
+                </div>
+                <!-- <div class="spot__pair-txt right-align">
+                  <h4>24h Volume(BTC)</h4>
+                  <p>1623.34</p>
+                </div>
+                <div class="spot__pair-txt right-align">
+                  <h4>24h Volume(USDT)</h4>
+                  <p>1623.34</p>
+                </div> -->
+              </div>
+            </div>
+            <div>
+              <div id="spot_chart" class="spot__chart"></div>
+            </div>
+          </div>
+        </div>
+        <div id="tabset">
+          <ul ngbNav #nav="ngbNav" class="nav-tabs">
+            <li ngbNavItem (click)="getActiveGrid()">
+              <a ngbNavLink>Running</a>
+              <ng-template ngbNavContent>
+                <div id="spot">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Time Created</th>
+                        <th scope="col">Pair</th>
+                        <th scope="col">Grid Size</th>
+                        <th scope="col">Total Invstment</th>
+                        <th scope="col">Exchange Name</th>
+                        <th scope="col">Profit</th>
+                        <th scope="col">Profit (%)</th>
+                        <th scope="col">Stop Loss</th>
+                        <!-- <th scope="col">Grid Profit</th>
+                        <th scope="col">Unrealized PNL</th> -->
+                        <th scope="col">Duration</th>
+                        <th scope="col">Grid Status</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of activeGrid.list">
+                        <td>{{data?.createdAt | date:'medium'}}</td>
+                        <td>{{data?.symbol}}</td>
+                        <td>{{data?.gridLines}}</td>
+                        <td>{{data?.fundInvested}} {{data?.quoteAsset}}</td>
+                        <td>{{data?.exchangeName}}</td>
+                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}} {{data?.quoteAsset}}</td>
+                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}}%</td>
+                        <td>{{data?.stopLoss}}</td>
+                        <!-- <td>-</td>
+                        <td>-</td> -->
+                        <td>{{data?.createdAt | dateAgo}}</td>
+                        <td>{{data?.status}}</td>
+                        <td class="p-relative">
+                         <button class="transparent-btn" appPopupconfirm popupMessage="Are you sure End this trade?"
+                         (onConfirm)="gridStop(data._id)"><img src="../../../../assets/img/svg/Stop.svg" alt="" ></button>
+                          <!-- <span routerLink="/grid/{{data._id}}/running"><img class="cursor" src="../../../../assets/img/svg/eye.svg" alt=""></span> -->
+                          <span (click)="navigatePage(data?._id, 'running')"><img class="cursor" src="../../../../assets/img/svg/eye.svg" alt=""></span>
+                          <span (click)="selectActiveData(data)" class="edit-icon"><img class="cursor" src="../../../../assets/img/svg/edit-2.svg" alt=""></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="activeGrid.count == 0 && !isLoading.activeGrid" class="nodata">
+                   <img src="../../../../assets/img/svg/no-data.png" alt="">
+                  </div>
+                  <div *ngIf="isLoading.activeGrid">
+                    <app-loader></app-loader>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li ngbNavItem (click)="getGridHistory()">
+              <a ngbNavLink>Grid History</a>
+              <ng-template ngbNavContent>
+                <div id="spot">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Time Created</th>
+                        <th scope="col">Pair</th>
+                        <th scope="col">Grid Size</th>
+                        <th scope="col">Total Invstment</th>
+                        <th scope="col">Exchange Name</th>
+                        <th scope="col">Profit</th>
+                        <th scope="col">Profit (%)</th>
+                        <th scope="col">Stop Loss</th>
+                        <!-- <th scope="col">Grid Profit</th>
+                        <th scope="col">Unrealized PNL</th> -->
+                        <th scope="col">Duration</th>
+                        <th scope="col">Grid Status</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of tradeHistory.list">
+                        <td>{{data?.createdAt | date:'medium'}}</td>
+                        <td>{{data?.symbol}}</td>
+                        <td>{{data?.gridLines}}</td>
+                        <td>{{data?.fundInvested}} {{data?.quoteAsset}}</td>
+                        <td>{{data?.exchangeName}}</td>
+                        <td [ngClass]="{'profit': (+data?.profit >= 0), 'loss' : (+data?.profit < 0)}">{{data?.profit | number:'0.0-8'}} {{data?.quoteAsset}}</td>
+                        <td [ngClass]="{'profit': (+data?.profitPercentage >= 0), 'loss' : (+data?.profitPercentage < 0)}">{{data?.profitPercentage | number:'0.0-8'}}%</td>
+                        <td>{{data?.stopLoss}}</td>
+                        <!-- <td>-</td>
+                        <td>-</td> -->
+                        <td>{{data?.createdAt | detaildateAgo: data?.updatedAt}}</td>
+                        <td>{{data?.status}}</td>
+                        <td>
+                          <!-- <img src="../../../../assets/img/svg/Stop.svg" alt="" class="stop-icon"> -->
+                          <!-- <span routerLink="/grid/{{data._id}}/history"><img class="cursor" src="../../../../assets/img/svg/eye.svg" alt=""></span> -->
+                          <span (click)="navigatePage(data?._id, 'history')"><img class="cursor" src="../../../../assets/img/svg/eye.svg" alt=""></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="tradeHistory.count == 0 && !isLoading.tradeHistory" class="nodata">
+                    <img src="../../../../assets/img/svg/no-data.png" alt="">
+                  </div>
+                  <div *ngIf="isLoading.tradeHistory">
+                    <app-loader></app-loader>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <h3 class="view-all-txt" routerLink="/grid">View All</h3>
+
+          <div [ngbNavOutlet]="nav"></div>
+        </div>
+      </div>
+      <div class="spot__col-second">
+        <div>
+          <div class="spot__title-txt">
+            <div>
+              <h2>{{isEdit ? 'Edit' : 'Add' }} MACD Grid Bot</h2>
+            </div>
+          </div>
+          <span *ngIf="isEdit">*Note: Coinpair and TimeFrame are not editable</span>
+          <div class="form-content">
+            <form [formGroup]="tradeForm">
+              <label for="validationCustom01" class="label">Coin Pair</label>
+              <div id="exchange-pair-second">
+                <!-- <select class="form-select mb-3" aria-label="Default select example" formControlName="coinpair" [(ngModel)]="selectedTradePair" (ngModelChange)="coinPairChange()">
+                  <option *ngFor="let data of exchangeInfoList" [value]=data?.symbol>{{data?.baseAsset}}/{{data?.quoteAsset}}</option>
+                 </select> -->
+                 <div id="fx-select">
+                 <app-search-dropdown class="common-search" [(ngModel)]="selectedTradePair" [isSearch]="true" [disable]="isEdit"
+                 formControlName="coinpair" (ngModelChange)="coinPairChange()">
+                 <app-option *ngFor="let data of exchangeInfoList" [value]=data?.symbol
+                   [label]="data?.baseAsset + '/' + data?.quoteAsset"></app-option>
+               </app-search-dropdown>
+              </div>
+              </div>
+
+              <label for="validationCustom01" class="label">Grid Size</label>
+              <div class="input-group mb-3">
+                <input type="textbox" class="input-box" placeholder="0" appNumbervalidate [value]="8" [ngModel]="selectedGridData?.gridSize"  formControlName="gridsize" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2">
+                <span class="copy-icon"><img src="../../../../assets/img/svg/percent.svg" width="18" alt="">
+                </span>
+              </div>
+              <ng-container *ngIf="tradeForm.controls['gridsize'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['gridsize'].hasError('required')">
+                  Input your Grid size
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['gridsize'].hasError('min')">
+                  Input minimum of {{selectedTradePairDetail?.minQty}}
+                </p>
+              </ng-container>
+
+              <label for="validationCustom01" class="label">Grid Lines</label>
+              <div class="input-group mb-3">
+                <input type="textbox" class="input-box" placeholder="0" [ngModel]="selectedGridData?.gridLines" formControlName="gridline" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2" appNumbervalidate [value]="0" (input)="fundValidation()">
+              </div>
+              <ng-container *ngIf="tradeForm.controls['gridline'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['gridline'].hasError('required')">
+                  Input your no.of grid line
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['gridline'].hasError('min') || tradeForm.controls['gridline'].hasError('max') ">
+                  Input your no.of grid line between 5 to 100
+                </p>
+              </ng-container>
+
+              <div class="d-flex-content">
+                <label for="validationCustom01" class="label">Invest Amount</label>
+                <label for="validationCustom01" class="label">{{accountBalance.balance}} {{selectedTradePairDetail?.quoteAsset}}</label>
+              </div>
+              <div class="input-group mb-3">
+                <input type="textbox" class="input-box" appNumbervalidate [value]="8" [ngModel]="selectedGridData?.fundInvested" placeholder="0" formControlName="amount">
+              </div>
+              <ng-container *ngIf="tradeForm.controls['amount'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['amount'].hasError('required')">
+                  Input your investment amount
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['amount'].hasError('min')">
+                  Input your investment amount minimum of {{minGridAmount}} {{selectedTradePairDetail?.quoteAsset}}
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['amount'].hasError('max')">
+                  Input your investment amount maximum of {{accountBalance.balance}} {{selectedTradePairDetail?.quoteAsset}}
+                </p>
+              </ng-container>
+
+              <div class="d-flex-content">
+                <label for="validationCustom01" class="label">Stop Loss</label>
+                <!-- <label for="validationCustom01" class="label">11137.29 USD</label> -->
+              </div>
+              <div class="input-group mb-3">
+                <input type="textbox" class="input-box"  appNumbervalidate [value]="2" [ngModel]="selectedGridData?.stopLoss" placeholder="0" formControlName="stoploss" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2">
+                <span class="copy-icon"><img src="../../../../assets/img/svg/percent.svg" width="18" alt="">
+                </span>
+              </div>
+              <ng-container *ngIf="tradeForm.controls['stoploss'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['stoploss'].hasError('required')">
+                  Input your stop loss value
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['stoploss'].hasError('min') || tradeForm.controls['stoploss'].hasError('max')">
+                  Input your stop loss value between 1 to 20
+                </p>
+              </ng-container>
+
+
+              <!-- <label for="validationCustom01" class="label">Leverage</label><br> -->
+              <!-- <input type="range" value="40" min="0" max="100" step="1" formControlName="leverage" class="progress" (input)="range($event)"> -->
+              <!-- <div class="leverage-value">
+                <p>{{leverageValue}}X</p>
+               </div> -->
+              <div class="spot__title-txt mt-3">
+                <div>
+                  <h2>MACD</h2>
+                </div>
+              </div>
+              <label for="validationCustom01" class="label">Fast Length</label>
+              <div class="input-group mb-3">
+                <input type="textbox" appNumbervalidate [value]="0" [ngModel]="selectedGridData?.fastLength" class="input-box" placeholder="0" formControlName="fastlength" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2">
+              </div>
+              <ng-container *ngIf="tradeForm.controls['fastlength'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['fastlength'].hasError('required')">
+                  Input your Fast length value
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['fastlength'].hasError('min') || tradeForm.controls['fastlength'].hasError('max')">
+                  Input your Fast length value between 1 to 100
+                </p>
+              </ng-container>
+
+              <label for="validationCustom01" class="label">Slow Length</label>
+              <div class="input-group mb-3">
+                <input type="textbox" appNumbervalidate [value]="0" class="input-box" [ngModel]="selectedGridData?.slowLength" placeholder="0" formControlName="slowlength" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2">
+              </div>
+              <ng-container *ngIf="tradeForm.controls['slowlength'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['slowlength'].hasError('required')">
+                  Input your Slow Length value
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['slowlength'].hasError('min') || tradeForm.controls['slowlength'].hasError('max')">
+                  Input your Slow Length value between 1 to 100
+                </p>
+              </ng-container>
+              <ng-container *ngIf="(+tradeForm.get('slowlength')?.value) == (+tradeForm.get('fastlength')?.value) && ((+tradeForm.get('slowlength')?.value) > 0 ||  (+tradeForm.get('fastlength')?.value) > 0)">
+                <p class="err-txt">
+                  Fast length and Slow length should not be same
+                </p>
+              </ng-container>
+
+              <label for="validationCustom01" class="label">Signal Smoothing </label>
+              <div class="input-group mb-3">
+                <input type="textbox" appNumbervalidate [value]="0" class="input-box" [ngModel]="selectedGridData?.signalSmooting" placeholder="0" formControlName="signalsmooth" aria-label="Recipient's username"
+                  aria-describedby="basic-addon2">
+              </div>
+              <ng-container *ngIf="tradeForm.controls['signalsmooth'].dirty">
+                <p class="err-txt" *ngIf="tradeForm.controls['signalsmooth'].hasError('required')">
+                  Input Signal smooth value
+                </p>
+                <p class="err-txt" *ngIf="tradeForm.controls['signalsmooth'].hasError('min') || tradeForm.controls['signalsmooth'].hasError('max')">
+                  Input Signal smooth value between 2 to 100
+                </p>
+              </ng-container>
+
+              <label for="validationCustom01" class="label">Source</label>
+              <div id="fx-select-end">
+                <!-- <select class="form-select mb-3" aria-label="Default select example" formControlName="source">
+                  <option value="OPEN">Open</option>
+                  <option value="CLOSE">Close</option>
+                  <option value="LOW">Low</option>
+                  <option value="HIGH">High</option>
+                  <option value="HL2">hl2</option>
+                  <option value="HLC3">hlc3</option>
+                  <option value="OHLC4">ohlc4</option>
+                </select> -->
+                <app-search-dropdown class="common-search" [isSearch]="false"  [ngModel]="selectedGridData?.source"
+                formControlName="source">
+                <app-option [value]="'OPEN'" [label]="'Open'"></app-option>
+                <app-option [value]="'CLOSE'" [label]="'Close'"></app-option>
+                <app-option [value]="'LOW'" [label]="'Low'"></app-option>
+                <app-option [value]="'HIGH'" [label]="'High'"></app-option>
+                <app-option [value]="'HL2'" [label]="'hl2'"></app-option>
+                <app-option [value]="'HLC3'" [label]="'hlc3'"></app-option>
+                <app-option [value]="'OHLC4'" [label]="'ohlc4'"></app-option>
+              </app-search-dropdown>
+
+              </div>
+              <ng-container *ngIf="tradeForm.controls['source'].dirty && tradeForm.controls['source'].touched">
+                <p class="err-txt" *ngIf="tradeForm.controls['source'].hasError('required')">
+                  Select Source
+                </p>
+              </ng-container>
+
+              <label for="validationCustom01" class="label">Time Frame</label>
+              <div id="fx-select-end">
+                <!-- <select class="form-select mb-3" aria-label="Default select example" formControlName="timeframe">
+                  <option value="1min">1m</option>
+                  <option value="3min">3m</option>
+                  <option value="5min">5m</option>
+                  <option value="15min">15m</option>
+                  <option value="30min">30m</option>
+                  <option value="1hour">1h</option>
+                  <option value="2hour">2h</option>
+                  <option value="4hour">4h</option>
+                  <option value="6hour">6h</option>
+                  <option value="12hour">12h</option>
+                  <option value="1day">1D</option>
+                  <option value="1week">1W</option>
+                </select> -->
+                <app-search-dropdown class="common-search" [isSearch]="false" [(ngModel)]="timeFrameValue" [disable]="isEdit"
+                formControlName="timeframe" (ngModelChange)="timeFrameChange()">
+                <app-option [value]="'1min'" [label]="'1m'"></app-option>
+                <app-option [value]="'3min'" [label]="'3m'"></app-option>
+                <app-option [value]="'5min'" [label]="'5m'"></app-option>
+                <app-option [value]="'15min'" [label]="'15m'"></app-option>
+                <app-option [value]="'30min'" [label]="'30m'"></app-option>
+                <app-option [value]="'1hour'" [label]="'1h'"></app-option>
+                <app-option [value]="'2hour'" [label]="'2h'"></app-option>
+                <app-option [value]="'4hour'" [label]="'4h'"></app-option>
+                <app-option [value]="'6hour'" [label]="'6h'"></app-option>
+                <app-option [value]="'12hour'" [label]="'12h'"></app-option>
+                <app-option [value]="'1day'" [label]="'1D'"></app-option>
+                <app-option [value]="'1week'" [label]="'1W'"></app-option>
+              </app-search-dropdown>
+              </div>
+              <ng-container *ngIf="tradeForm.controls['timeframe'].dirty && tradeForm.controls['timeframe'].touched">
+                <p class="err-txt" *ngIf="tradeForm.controls['timeframe'].hasError('required')">
+                  Select TimeFrame
+                </p>
+              </ng-container>
+
+              <div class="d-flex-select">
+                <div class="w-100">
+                  <label for="validationCustom01" class="label">Oscillator MA Type</label>
+                  <div id="fx-select-end">
+                    <!-- <select class="form-select mb-3" aria-label="Default select example" formControlName="oscillatorMA">
+                      <option value="EMA">EMA</option>
+                      <option value="SMA">SMA</option>
+                    </select> -->
+                    <app-search-dropdown class="common-search" [isSearch]="false" formControlName="oscillatorMA" [ngModel]="selectedGridData?.oscillatorType">
+                      <app-option [value]="'EMA'" [label]="'EMA'"></app-option>
+                      <app-option [value]="'SMA'" [label]="'SMA'"></app-option>
+                    </app-search-dropdown>
+                  </div>
+                  <ng-container *ngIf="tradeForm.controls['oscillatorMA'].dirty && tradeForm.controls['oscillatorMA'].touched">
+                    <p class="err-txt" *ngIf="tradeForm.controls['oscillatorMA'].hasError('required')">
+                      Select Oscillator MA Type
+                    </p>
+                  </ng-container>
+                </div>
+
+                <div class="w-100">
+                  <label for="validationCustom01" class="label">Signal Line MA Type</label>
+                  <div id="fx-select-end">
+                    <!-- <select class="form-select mb-3" aria-label="Default select example" formControlName="signalMA">
+                      <option value="EMA">EMA</option>
+                      <option value="SMA">SMA</option>
+                    </select> -->
+                    <app-search-dropdown class="common-search" [isSearch]="false" formControlName="signalMA" [ngModel]="selectedGridData?.signalLineType">
+                      <app-option [value]="'EMA'" [label]="'EMA'"></app-option>
+                      <app-option [value]="'SMA'" [label]="'SMA'"></app-option>
+                    </app-search-dropdown>
+                  </div>
+                  <ng-container *ngIf="tradeForm.controls['signalMA'].dirty && tradeForm.controls['signalMA'].touched">
+                    <p class="err-txt" *ngIf="tradeForm.controls['signalMA'].hasError('required')">
+                      Select Oscillator MA TypeSignal Line MA Type
+                    </p>
+                  </ng-container>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- <div>
+               <div class="spot__title-txt">
+                  <div> <h2>Preview</h2></div>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Coin Pair</h3>
+                  <p class="value-txt"> BTC/USDT</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Invest Amount</h3>
+                  <p class="value-txt"> 2501 USDT</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Grid Size</h3>
+                  <p class="value-txt"> 0.2345</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Grid Line</h3>
+                  <p class="value-txt"> 0.2345</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Stop Loss</h3>
+                  <p class="value-txt"> 5%</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Leverage</h3>
+                  <p class="value-txt"> 10x</p>
+                 </div>
+                 <div class="spot__title-txt">
+                  <div> <h2>MACD</h2></div>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Fast Length</h3>
+                  <p class="value-txt"> 24</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Slow Length</h3>
+                  <p class="value-txt"> 12</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Signal Smoothing</h3>
+                  <p class="value-txt"> 48</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Source</h3>
+                  <p class="value-txt"> Open</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Time Frame</h3>
+                  <p class="value-txt"> 1 Month</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Oscillator MA Type</h3>
+                  <p class="value-txt"> EMA</p>
+                 </div>
+                 <div class="d-flex-price">
+                  <h3 class="price-txt">Signal Line MA Type</h3>
+                  <p class="value-txt"> SMA</p>
+                 </div>
+            </div> -->
+        <div class="d-flex-select mt-4">
+          <button type="button" class="spot__cancel-btn" (click)="formReset(tradeForm, ['coinpair'])">Cancel</button>
+          <button type="button" *ngIf="!isEdit" class="spot__save-btn" [disabled]="tradeForm.invalid || isLoading.create 
+          || (+tradeForm.get('slowlength')?.value) == (+tradeForm.get('fastlength')?.value)" (click)="createNewOrder()">Submit</button>
+          <button type="button" *ngIf="isEdit" class="spot__save-btn" [disabled]="tradeForm.invalid || isLoading.create 
+          || (+tradeForm.get('slowlength')?.value) == (+tradeForm.get('fastlength')?.value)" (click)="editActiveGrid()">Submit</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"><img
+          src="../../../../assets/img/svg/x.svg" alt=""></button>
+      <div class="spot__title-txt-modal">
+        <h2>Balance</h2>
+      </div>
+    </div>
+    <div class="offcanvas-body">
+      <!-- <div class="spot__balance-card">
+        <h3>0.123 BTC</h3>
+        <h6>1.4 USDT</h6>
+      </div> -->
+
+      <div class="spot__balance-list" *ngFor="let data of accountBalance.balanceList">
+        <div class="d-flex">
+          <div>
+            <img src="../../../../assets/img/coins-list/{{data?.asset.toLowerCase()}}.svg" width="40" alt="">
+          </div>
+          <div>
+            <p>{{data?.asset}}</p>
+          </div>
+        </div>
+        <div>
+          <h3>{{data?.free | coinDecimal: data?.asset}}</h3>
+        </div>
+      </div>
+
+    </div>
+  </ng-template>
+</section>

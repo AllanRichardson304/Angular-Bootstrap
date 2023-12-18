@@ -1,0 +1,205 @@
+<section class="security">
+  <div class="security__title-txt">
+    <h2>Security</h2>
+  </div>
+  <div class="security__card">
+    <div class="security__card-content">
+      <div class="security__card-inner">
+        <h3>Two Factor Authentication</h3>
+        <p>For more security enable an authentication</p>
+      </div>
+      <div>
+        <button type="button" [ngClass]="{'security__solid-btn' : !userDetail?.status2fa ,  'security__outline-btn' : userDetail?.status2fa}" (click)="open(content)">
+          {{userDetail?.status2fa ? 'Disable' : 'Enable'}}
+        </button>
+      </div>
+    </div>
+    <div class="security__card-content">
+      <div class="security__card-inner">
+        <h3>Change Password</h3>
+        <p>Be sure that your password is safe and strong</p>
+      </div>
+      <div>
+        <button type="button" class="security__solid-btn" (click)="openPassword(password)">Change</button>
+      </div>
+    </div>
+    <div class="security__card-content">
+      <div class="security__card-inner">
+        <h3>Pin Lock</h3>
+        <p>For more security enable pin lock</p>
+      </div>
+      <div>
+        <button type="button" [ngClass]="{'security__solid-btn' : !userDetail?.statusPinLock ,  'security__outline-btn' : userDetail?.statusPinLock}" (click)="openPin(authentication)">
+          {{userDetail?.statusPinLock ? 'Disable' : 'Enable'}}
+        </button>
+      </div>
+    </div>
+
+    <div class="security__activity-txt">
+      <h3>Activity Log</h3>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Date/Time</th>
+          <th scope="col">Browser</th>
+          <th scope="col">OS</th>
+          <th scope="col">IP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of activityLogList">
+          <td>{{data?.updatedAt | date:'medium'}}</td>
+          <td>{{data?.browser}} </td>
+          <td>{{data?.os}}</td>
+          <td>{{data?.ip}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="!isLoading.activity && activityLogList.length == 0">
+      <img src="../../../assets/img/svg/no-data.png">
+    </div>
+  </div>
+</section>
+
+<ng-template #content>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{userDetail?.status2fa ? 'Disable Authentication' : 'Enable Authentication'}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+  </div>
+  <div class="modal-body">
+    <p class="para-txt" *ngIf="!userDetail?.status2fa">1. Get Google Authentication From App Store or Google Play and set up an account.</p>
+    <p class="para-txt" *ngIf="!userDetail?.status2fa">2. Scanning the QR Code or enter the backup Key.</p>
+    <div class="qr-content" *ngIf="!userDetail?.status2fa">
+      <div>
+        <img [src]="qrCode" alt="">
+      </div>
+      <div class="w-100">
+        <form>
+          <label for="validationCustom01" class="label">Save backup key</label>
+          <div class="input-group mb-3">
+            <input type="text" class="input-box" [value]="secretCode"
+              aria-describedby="basic-addon2" readonly>
+            <span class="copy-icon" appCopytxt [copyText]="secretCode"
+              ngbTooltip="Copied!" [closeDelay]="500"  triggers="manual" #t="ngbTooltip" (click)="t.open()" (mouseleave)="t.close()"><img src="../../../../assets/img/svg/copy.svg" alt=""></span>
+          </div>
+          <p class="para-txt">If unable to scan QR code, please enter code manually into the app</p>
+          <label for="validationCustom01" class="label">Enter 2-Factor Authentication</label>
+          <div class="input-group mb-3">
+            <input type="text" class="input-box" placeholder="Enter 6 digit code" [(ngModel)]="code2Fa" [ngModelOptions]="{standalone: true}" (input)="validateCode()">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="userDetail?.status2fa">
+      <div class="input-group mb-3">
+        <input type="text" class="input-box" placeholder="Enter 6 digit code" [(ngModel)]="code2Fa" [ngModelOptions]="{standalone: true}" (input)="validateCode()">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="security__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+    <button type="button" class="security__save-btn" [disabled]="code2Fa?.length < 6 || isLoading.g2fa" (click)="status2Fa()">
+      <span *ngIf="isLoading.g2fa" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Save
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #password>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> Password</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="w-100">
+      <form [formGroup]="changePasswordForm">
+        <label for="validationCustom01" class="label">Old Password</label>
+        <div class="input-group mb-3">
+          <input [type]="visible.oldpassword ? 'text' : 'password'" class="input-box" placeholder="Old Password" formControlName="oldPassword">
+          <span class="copy-icon" (click)="changeVisible('old')">
+            <img src="../../../../assets/img/svg/eye.svg" alt="" *ngIf="visible.oldpassword">
+            <img src="../../../../assets/img/svg/eye-off.svg" alt="" *ngIf="!visible.oldpassword">
+          </span>
+        </div>
+        <ng-container *ngIf="changePasswordForm.controls['oldPassword'].dirty">
+          <p class="err-txt" *ngIf="changePasswordForm.controls['oldPassword'].hasError('required')">
+            Please enter your Old Password
+          </p>
+          <p class="err-txt" *ngIf="changePasswordForm.controls['oldPassword'].hasError('pattern')">
+            Invalid Password
+          </p>
+        </ng-container>
+
+        <label for="validationCustom01" class="label">New Password</label>
+        <div class="input-group mb-3">
+          <input [type]="visible.newpassword ? 'text' : 'password'" class="input-box" placeholder="New Password" formControlName="newPassword">
+          <span class="copy-icon" (click)="changeVisible('new')">
+            <img src="../../../../assets/img/svg/eye.svg" alt="" *ngIf="visible.newpassword">
+            <img src="../../../../assets/img/svg/eye-off.svg" alt="" *ngIf="!visible.newpassword">
+          </span>
+        </div>
+        <ng-container *ngIf="changePasswordForm.controls['newPassword'].dirty">
+          <p class="err-txt" *ngIf="changePasswordForm.controls['newPassword'].hasError('required')">
+            Please enter your New Password
+          </p>
+          <p class="err-txt" *ngIf="changePasswordForm.controls['newPassword'].hasError('pattern')">
+            Password Must Contain One Small Character, One Large Character, One Number, Special Characters And Minimum 8 Digits
+          </p>
+        </ng-container>
+
+        <label for="validationCustom01" class="label">Confirm New Password</label>
+        <div class="input-group mb-3">
+          <input [type]="visible.confirmpassword ? 'text' : 'password'" class="input-box" placeholder="Confirm Password" formControlName="confirmPassword">
+          <span class="copy-icon" (click)="changeVisible('confirm')">
+            <img src="../../../../assets/img/svg/eye.svg" alt="" *ngIf="visible.confirmpassword">
+            <img src="../../../../assets/img/svg/eye-off.svg" alt="" *ngIf="!visible.confirmpassword">
+          </span>
+        </div>
+        <ng-container *ngIf="changePasswordForm.controls['confirmPassword'].dirty">
+          <p class="err-txt" *ngIf="changePasswordForm.controls['confirmPassword'].hasError('required')">
+            Please enter Confirm Password
+          </p>
+          <p class="err-txt" *ngIf="changePasswordForm.controls['confirmPassword'].hasError('pattern') || changePasswordForm.controls['confirmPassword'].hasError('mustMatch')">
+            The Password Don't Match
+          </p>
+        </ng-container>
+
+      </form>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="security__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+    <button type="button" class="security__save-btn" [disabled]="changePasswordForm.invalid || isLoading.changepassword"
+    (click)="changePassword()">
+    <span *ngIf="isLoading.changepassword" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Save
+  </button>
+  </div>
+</ng-template>
+
+<ng-template #authentication >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"> {{userDetail?.statusPinLock ? 'Disable' : 'Enable'}} Pin Lock</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.dismissAll()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="w-100">
+      <form>
+        <label for="validationCustom01" class="label">Pin</label>
+        <div class="model-otp">
+          <code-input #codeInput [codeLength]="codelength" (codeChanged)="getCode($event)">
+          </code-input>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="security__cancel-btn" (click)="modalService.dismissAll()">Cancel</button>
+    <button type="button" class="security__save-btn" [disabled]="isLoading.pinlock || pinLockCode?.length < 4"
+    (click)="changePinLockStatus()">{{userDetail?.statusPinLock ? 'Disable' : 'Enable'}}</button>
+  </div>
+</ng-template>

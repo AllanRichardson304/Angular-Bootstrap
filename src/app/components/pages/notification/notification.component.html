@@ -1,0 +1,34 @@
+<section class="notification">
+	<div class="notification__title-txt">
+		<div>
+			<h2>Notification</h2>
+		</div>
+	</div>
+	<div class="notification__card">
+		<button type="button" class="notification__save-btn" [disabled]="notification.clearLoad" *ngIf="notification.count > 0"
+			(click)="clearAllNotification()">Clear All</button>
+		<table class="table" *ngIf="!notification.load">
+			<thead>
+
+			</thead>
+			<tbody>
+				<tr *ngFor="let data of notification.list">
+					<td>
+						<div class="notification__td-title">{{data?.title}}</div>
+						<div>{{data?.message}}</div>
+					</td>
+					<td>{{data?.createdAt | dateAgo}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<div>
+			<app-loader *ngIf="notification.load"></app-loader>
+		</div>
+		<div class="nodata" *ngIf="!notification.load && notification.count == 0">
+			<img src="../../../../assets/img/svg/no-data.png">
+		</div>
+		<div *ngIf="!notification.load && notification.count > 10">
+			<ngb-pagination [collectionSize]="notification.count" [(page)]="notification.page" [maxSize]="10" [ellipses]="true" [boundaryLinks]="false" (pageChange)="getAllNotification()"></ngb-pagination>
+		</div>
+	</div>
+</section>

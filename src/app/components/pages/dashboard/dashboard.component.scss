@@ -1,0 +1,199 @@
+.dashboard{
+    &__title-txt{
+        h2{
+            font-size: 1.6rem;
+            color: var(--black-color);  
+            font-family: "GoogleSans-Bold";
+        }
+    }
+    &__card-content{
+        display: grid;
+        grid-template-columns: repeat(4, 42rem);
+        gap: 3rem;
+        margin:5rem 0;
+    }
+    &__card-first{
+        //  flex: 1 1 40rem;
+         background-image: url('../../../../assets/img/banner/card-bg1.png');
+         border-radius: 1rem;
+         background-repeat: no-repeat;
+         height: 20rem;
+         background-size: 100% 100%;
+    }
+    &__card-second{
+        // flex: 1 1 40rem;
+        background-image: url('../../../../assets/img/banner/card-bg2.png');
+        border-radius: 1rem;
+        background-repeat: no-repeat;
+        height: 20rem;
+        background-size: 100% 100%;
+   }
+   &__card-third{
+    // flex: 1 1 40rem;
+    background-image: url('../../../../assets/img/banner/card-bg3.png');
+    border-radius: 1rem;
+    background-repeat: no-repeat;
+    height: 20rem;
+    background-size: 100% 100%;
+}
+&__card-fourth{
+    // flex: 1 1 40rem;
+    background-image: url('../../../../assets/img/banner/card-bg4.png');
+    border-radius: 1rem;
+    background-repeat: no-repeat;
+    height: 20rem;
+    background-size: 100% 100%;
+}
+&__card-first-end{
+    // flex: 1 1 40rem;
+    background-image: url('../../../../assets/img/banner/last-1.png');
+    border-radius: 1rem;
+    background-repeat: no-repeat;
+    height: 20rem;
+    background-size: 100% 100%;
+}
+&__card-second-end{
+//    flex: 1 1 40rem;
+   background-image: url('../../../../assets/img/banner/last-2.png');
+   border-radius: 1rem;
+   background-repeat: no-repeat;
+   height: 20rem;
+   background-size: 100% 100%;
+}
+&__card-third-end{
+// flex: 1 1 40rem;
+background-image: url('../../../../assets/img/banner/last-3.png');
+border-radius: 1rem;
+background-repeat: no-repeat;
+height: 20rem;
+background-size: 100% 100%;
+}
+&__card-fourth-end{
+// flex: 1 1 40rem;
+background-image: url('../../../../assets/img/banner/last-4.png');
+border-radius: 1rem;
+background-repeat: no-repeat;
+height: 20rem;
+background-size: 100% 100%;
+}
+&__card-inner{
+  height: 0;
+    p{
+        color: #EEEEEE;
+        font-family: "GoogleSans-Light";
+        font-size: 1.6rem;
+        text-align: left;
+        margin-bottom: 0.5rem;
+    }
+    h6{
+        color: var(--white-color);
+        font-family: "GoogleSans-Light";
+        font-size: 2.4rem;
+        text-align: left;
+
+    }
+}
+&__card-txt{
+    position: relative;
+    top: 9rem;
+    padding: 2.4rem;
+}
+&__card-secondary{
+    flex: 1 1 40rem;
+    background-color: var(--white-color);
+    border-radius: 0.8rem;
+    height: 20rem;
+    position: relative;
+
+}
+&__card-inner-secondary{
+    padding: 3rem 2.4rem 0;
+    h2{
+        color: var(--text-color);
+        font-family: "GoogleSans-Light";
+        font-size: 1.6rem;
+          }
+          h1{
+              color: var(--black-color);
+              font-family: "GoogleSans-Light";
+              font-size: 2.4rem;
+          }
+          h3{
+              color: var(--text-color);
+              font-family: "GoogleSans-Light";
+              font-size: 1.6rem;
+          }
+}
+&__card-footer{
+background-color:#F1F5FF;
+display: flex;
+text-align: center;
+justify-content: space-between;
+padding: 1.2rem 2.4rem;
+position: absolute;
+bottom: 0;
+width: 100%;
+border-bottom-left-radius: 0.8rem;
+border-bottom-right-radius: 0.8rem;
+height: 4rem;
+p{
+    color: var(--primary-color);
+              font-family: "GoogleSans-Light";
+              font-size: 1.4rem;
+}
+}
+}
+.profit{
+    color: var(--profit-color);
+}
+.loss{
+    color: var(--loss-color) !important;
+}
+
+@media (min-width: 320px) and (max-width: 540px){
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+}
+@media (min-width: 541px) and (max-width: 767px) {
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+    }
+
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+}
+@media (min-width: 1440px) and (max-width: 1680px) {
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+}
+@media (min-width: 1221px) and (max-width: 1339px) {
+    .dashboard{
+        &__card-content{
+            grid-template-columns: repeat(4, 1fr) !important;
+        }
+    }
+
+}

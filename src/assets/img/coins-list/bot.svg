@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 64 64">
+      <image width="64" height="64" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAIVBMVEX///8AAAAxMTETExPv7+/5+fm6urp2dnafn59fX1/n5+f+7tODAAAAnUlEQVRIx2NgGAWjgEzQKAgE+BQIEquAYwIuFS4uLhB1+IxhJWAPG0heFLe8IUhegYAzC3BKM4HlE/DrNyAQDmDrcToyUBDmD3zGKALlJRkI+NOAgD8X4JR2BEkL4NbOSMifRISDBMQgIVxWiMEcwkDAn0IE3IlHvhAkL44/mPGFA0hemEB0izLgj0gBiDMFqJK98AaUwGhBNgrIBQAm8BAXNt3uBwAAAABJRU5ErkJggg=="/>
+    </pattern>
+  </defs>
+  <rect id="bot" width="80" height="80" fill="url(#pattern)"/>
+</svg>

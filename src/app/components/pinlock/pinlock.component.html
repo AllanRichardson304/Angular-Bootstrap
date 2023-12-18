@@ -1,0 +1,17 @@
+<section class="auth">
+    <div class="auth__banner">
+         <div class="auth__card"> 
+            <div class="auth__card-inner">
+               <img src="../../../../assets/img/banner/Logo_Full.png" alt="">
+               <h2>Pin Lock</h2>
+               <h6>Please enter the code PIN</h6>
+               <div class="auth__model-otp" id="codeinput">
+                <code-input #codeInput [codeLength]="codelength" (codeChanged)="getCode($event)" >
+                </code-input>
+              <button type="button" class="auth__save-btn" [disabled]="isLoading || unlockCode?.length < 4"
+              (click)="unlockScreen()">Submit</button>
+              </div>
+            </div>
+         </div>
+    </div>
+</section>

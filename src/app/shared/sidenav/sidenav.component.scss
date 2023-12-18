@@ -1,0 +1,196 @@
+.sidenav {
+
+  &__aside {
+    height: calc(100vh - 6.4px);
+    align-items: baseline;
+    position: fixed;
+    top: 6.1rem;
+    width: 7rem;
+    min-width: 0;
+    z-index: 100;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    cursor: pointer;
+    background-color: var(--white-color);  
+    list-style: none;
+    z-index: 99999;
+
+    &:hover {
+        width:28rem;
+        overflow-y: auto;
+        box-shadow: 30px 13px 30px rgb(0 0 0 / 8%);
+    }
+  }
+  &__aside-txt {
+    margin-left: 4.5rem;
+  font-weight: 500;
+  color:var(--text-color);
+  font-size:1.4rem;
+  font-family: "GoogleSans-Bold";
+  display: flex;
+  min-height: 5rem !important;
+  align-items: center;
+  }
+  &__aside-content {
+    margin-top:4rem;
+    white-space:normal;
+    border: none;
+    padding-left:1rem;
+    outline: none; 
+    box-shadow: none;
+    min-height: 5rem;
+  }
+  &__sidenav-img{
+    display: flex;
+    img{
+      filter: brightness(0.4) invert(0.6);
+    }
+  }
+}
+.sidenavsmall {
+
+  &__aside {
+    height: calc(100vh - 6.4px);
+    align-items: baseline;
+    position: fixed;
+    top: 0rem;
+    left: 0rem;
+    min-width: 0;
+    z-index: 100;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    cursor: pointer;
+    background-color: var(--white-color);  
+    list-style: none;
+    z-index: 99999;
+  }
+  &__aside-txt {
+    margin-left: 4.5rem;
+  font-weight: 500;
+  color:var(--text-color);
+  font-size:1.4rem;
+  font-family: "GoogleSans-Bold";
+  display: flex;
+  min-height: 5rem !important;
+  align-items: center;
+  }
+  &__aside-content {
+    margin-top:4rem;
+    white-space:normal;
+    border: none;
+    padding-left:1rem;
+    outline: none; 
+    box-shadow: none;
+    min-height: 5rem;
+  }
+  &__sidenav-img{
+    display: flex;
+    img{
+      filter: brightness(0.4) invert(0.6);
+    }
+  }
+}
+.active {
+    // .sidenav-img {
+    //     background: var(--primarycolor);
+    //     width: 40px;
+    //     border-radius: 8px;
+    //     padding: 1px 9px 1px 11px;
+    //     justify-content: center;
+    //     height: 40px;
+    //     margin-left: -10px;
+    //     float: left;
+    // }
+    img {
+      filter: brightness(1);
+      // position: relative;
+      // bottom: 4px;
+      // top: -1px;
+      // right: 0px;
+      // left: -1px;
+    }
+    span{
+      color:var(--primary-color);
+      // margin-left: 39px;
+      // position:absolute;
+      // font-size:1.4rem;
+      // font-family: "GoogleSans-Bold";
+      // margin-top: 0px;
+    }
+  }
+  #toggle-icon {
+    display: none;
+  }
+  @media (min-width: 320px) and (max-width: 540px){
+      .sidenav{
+        display: none;
+    }
+    #toggle-icon {
+    display: block;
+    z-index:1000;
+    border: none;
+    outline: none;
+    color:var(--black-color);
+    background-color:transparent;
+    margin-top: 1.3rem;
+    position: fixed;
+    font-size: 2rem;
+    margin-left: 0.8rem;
+    }
+}
+@media (min-width: 541px) and (max-width: 767px) {
+  .sidenav{
+    display: none;
+}
+  #toggle-icon {
+    display: block;
+    z-index:1000;
+    border: none;
+    outline: none;
+    color:var(--black-color);
+    background-color:transparent;
+    margin-top: 1.3rem;
+    position: fixed;
+    font-size: 2rem;
+    margin-left: 0.8rem;
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidenav{
+    display: none;
+}
+  #toggle-icon {
+    display: block;
+    z-index:1000;
+    border: none;
+    outline: none;
+    color:var(--black-color);
+    background-color:transparent;
+    margin-top: 1.3rem;
+    position: fixed;
+    font-size: 2rem;
+    margin-left: 0.8rem;
+    }
+
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .sidenav{
+    display: none;
+}
+  #toggle-icon {
+    display: block;
+    z-index:1000;
+    border: none;
+    outline: none;
+    color:var(--black-color);
+    background-color:transparent;
+    margin-top: 1.3rem;
+    margin-left: 0.8rem;
+    position: fixed;
+    font-size: 2rem;
+    }
+
+}
+.d-none{
+  display: none !important;
+}

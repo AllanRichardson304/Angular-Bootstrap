@@ -1,0 +1,95 @@
+.grid{
+    &__d-flex-title{
+        display: flex;
+        text-align: center;
+        align-items: center;
+        h2{
+            font-size: 1.6rem;
+            color: var(--black-color);  
+            font-family: "GoogleSans-Bold";
+        }
+        h3{
+            font-size: 1.6rem;
+            color: var(--primary-color);  
+            font-family: "GoogleSans-Light";
+            font-style: italic;
+            cursor: pointer;
+        }
+        img{
+            margin: 0 1rem;
+        }
+    }
+    &__card{
+        background-color: var(--white-color);
+        padding:2.4rem;
+        width: 100%;
+        margin-top: 2rem;
+        border-radius: 0.8rem;
+        border: 0.1rem solid var(--border);
+    }
+    &__table-content{
+        background-color: #FAFAFA;
+        padding: 1.2rem 2rem;
+        box-shadow: -6px 0 16px -8px rgba(0, 0, 0, 0.08), -9px 0 28px 0 rgba(0, 0, 0, 0), -12px 0 48px 16px rgba(0, 0, 0, 0.12);
+        margin-bottom: 2rem !important;
+    }
+    &__details{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 2rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    &__inner-details{
+        flex: 1 1 10rem;
+        h6{
+            font-size: 1.2rem;
+            color: var(--text-color);
+            font-family: "GoogleSans-Light";
+            text-align: left;
+        }
+        h1{
+            font-size: 1.4rem;
+            color: var(--black-color);
+            font-family: "GoogleSans-Light";
+            text-align: left;
+        }
+    }
+    &__buy-btn{
+        background-color: #F1F5FF;
+        color: var(--primary-color);
+        font-family: "GoogleSans-Light";
+        font-size: 1.2rem;
+        border-radius: 5rem;
+        padding: 0.8rem 2rem;
+        border: none;
+        outline: none;
+    }
+    &__buy-content{
+        display: flex;
+        flex-wrap: wrap;
+        padding: 2.4rem;
+    }
+    &__buy-tab{
+        flex: 0 0 53rem;
+    }
+}
+.table-tag{
+    width: 100% !important;
+}
+.view-all-txt {
+    font-size: 1.4rem;
+    font-family: "GoogleSans-Light";
+    color: var(--primary-color);
+    float: right;
+    position: relative;
+    top: -5rem;
+    cursor: pointer;
+  }
+  #tabset{
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  .cursor{
+    cursor: pointer;
+  }

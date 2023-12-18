@@ -1,0 +1,18 @@
+<div *ngIf="toastService.toasts.length > 0">
+  <ngb-toast
+  *ngFor="let toast of toastService.toasts" [class]="toast.type.classname"
+ [autohide]="true" [delay]="toast.type.delay"
+>
+<div class="notification-content">
+  <div class="d-flex-content">
+        <img *ngIf="toast.type.val == 'success'" class="notification-icon" src="../../../assets/img/svg/Success.svg" width="32" alt="">
+        <img *ngIf="toast.type.val == 'error'" class="notification-icon" src="../../../assets/img/svg/Close.svg" width="32" alt="">
+      
+        <p> {{toast.body}}</p>
+  </div>
+  <div>
+       <img class="close-btn cursor" src="../../../assets/img/svg/x_1Strk.svg" width="15" alt="" (click)="toastService.toasts = []">  
+  </div>
+</div>   
+</ngb-toast>
+</div>

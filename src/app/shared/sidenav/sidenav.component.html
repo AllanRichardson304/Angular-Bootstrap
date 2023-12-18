@@ -1,0 +1,133 @@
+<div class="sidenav">
+    <ul class="sidenav__aside" *ngIf="role == 'user'">
+        <li class="sidenav__aside-content">
+            <div class="sidenav__sidenav-img " routerLink="/dashboard" routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Dashboard.svg" alt="">
+                <span class="sidenav__aside-txt">Dashboard</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content" *ngIf="selectedExchange?.accountType == 'spot'">
+            <div class="sidenav__sidenav-img" routerLink="/spot"  routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Spot.svg" alt="">
+                <span class="sidenav__aside-txt">Spot</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content" *ngIf="selectedExchange?.accountType == 'fx'">
+            <div class="sidenav__sidenav-img " routerLink="/fx"  routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Future.svg" alt="">
+                <span class="sidenav__aside-txt">FX</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content">
+            <div class="sidenav__sidenav-img " routerLink="/wallet"  routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Wallet.svg" alt="">
+                <span class="sidenav__aside-txt">Wallet</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content">
+            <div class="sidenav__sidenav-img " routerLink="/exchange"  routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Exchange.svg" alt="">
+                <span class="sidenav__aside-txt">Exchange</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content">
+            <div class="sidenav__sidenav-img " routerLink="/security" routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Securiy.svg" alt="">
+                <span class="sidenav__aside-txt">Security</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content" (click)="logOut()" routerLinkActive="active">
+            <div class="sidenav__sidenav-img">
+                <img src="../../../assets/img/sidemenu/log-out.svg" alt="">
+                <span class="sidenav__aside-txt">Logout</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content" >
+        </li>
+    </ul>
+    <ul class="sidenav__aside" *ngIf="role == 'admin'">
+        <li class="sidenav__aside-content">
+            <div class="sidenav__sidenav-img " routerLink="/coinpair" routerLinkActive="active">
+                <img src="../../../assets/img/sidemenu/B_Dashboard.svg" alt="">
+                <span class="sidenav__aside-txt">Coin Pair</span>
+            </div>
+        </li>
+        <li class="sidenav__aside-content" (click)="logOut()" routerLinkActive="active">
+            <div class="sidenav__sidenav-img">
+                <img src="../../../assets/img/sidemenu/log-out.svg" alt="">
+                <span class="sidenav__aside-txt">Logout</span>
+            </div>
+        </li>
+    </ul>
+</div>
+<button nz-button id="toggle-icon" (click)="open(content)">&#9776;</button>
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header d-none">
+      <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"><img src="../../../../assets/img/svg/x.svg" alt=""></button>
+   
+    </div>
+    <div class="offcanvas-body">
+        <div class="sidenavsmall">
+            <ul class="sidenavsmall__aside" *ngIf="role == 'user'">
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/dashboard" routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Dashboard.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Dashboard</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img" routerLink="/spot"  routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Spot.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Spot</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/fx"  routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Future.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">FX</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/wallet"  routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Wallet.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Wallet</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/exchange"  routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Exchange.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Exchange</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/security" routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Securiy.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Security</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content" (click)="logOut()" routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                    <div class="sidenavsmall__sidenav-img">
+                        <img src="../../../assets/img/sidemenu/log-out.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Logout</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content" >
+                </li>
+            </ul>
+            <ul class="sidenavsmall__aside" *ngIf="role == 'admin'">
+                <li class="sidenavsmall__aside-content">
+                    <div class="sidenavsmall__sidenav-img " routerLink="/coinpair" routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                        <img src="../../../assets/img/sidemenu/B_Dashboard.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Coin Pair</span>
+                    </div>
+                </li>
+                <li class="sidenavsmall__aside-content" (click)="logOut()" routerLinkActive="active" (click)="offcanvas.dismiss('Cross click')">
+                    <div class="sidenavsmall__sidenav-img">
+                        <img src="../../../assets/img/sidemenu/log-out.svg" alt="">
+                        <span class="sidenavsmall__aside-txt">Logout</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </ng-template>
